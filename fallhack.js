@@ -52,6 +52,9 @@ export default class gameFalloutHacking {
   wordRanges = {};
   serviceLog = [];
 
+  cheatRestore = 10;
+  cheatRemove = 100;
+
   constructor ({
     words = ['DESCRIBE', 'LINGERIE', 'MCMILLEN', 'OPPERMAN', 'PAVEMENT', 'QUANTITY', 'REVERENT', 'AARDVARK'],
     password = 'AARDVARK',
@@ -78,6 +81,7 @@ export default class gameFalloutHacking {
     this.rightOpposites = objectFromArrays(this.rightBrackets, this.leftBrackets),
     this.cheats = this.leftBrackets.concat(this.rightBrackets);
     this.triesAtStart = tries;
+    this.dummyWords = words.filter(item => item !== this.password);
     // generated attributes
     this.textField = this.getTextField();
     this.content = this.getContent();
@@ -124,6 +128,7 @@ export default class gameFalloutHacking {
   onClick = (event) => {
     const char = event.target.closest(".char");
     if (!char) return;
+
     const target = this.checkChar(char);
 
     if (target.word) {
@@ -140,8 +145,19 @@ export default class gameFalloutHacking {
     }
 
     if (target.cheat) {
-      //this.applyCheat();
       target.chars.forEach(this.makeDot);
+      const chance = getRandomInt(0, 100);
+      if (chance <= this.cheatRestore) {
+        this.triesRestore();
+        this.addServiceRow('TRIES RESTORED!');
+      } else if (chance <= this.cheatRemove) {
+        const word = getRandomFromArray(this.dummyWords);
+        range(...this.wordRanges[word]).forEach(index => {
+          this.makeDot(this.subElements[index]);
+        });
+        this.wordRanges[word] = [];
+        this.addServiceRow('DUD REMOVED!')
+      }
     }
   }
 

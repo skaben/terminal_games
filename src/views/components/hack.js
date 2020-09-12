@@ -1,18 +1,7 @@
-// helper function
-
-function getRandomInt(min, max) {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getRandomFromArray(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
 function range(start, end) {
   return Array(end - start + 1).fill().map((_, idx) => start + idx)
 }
+
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -22,9 +11,23 @@ function shuffle(array) {
   return array;
 }
 
+
+function getRandomInt(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function getRandomFromArray(items) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+
 function intersection(arrA, arrB) {
   return arrA.filter(x => arrB.includes(x));
 }
+
 
 function chunkArrayInGroups(arr, size) {
   let myArray = [];
@@ -34,14 +37,13 @@ function chunkArrayInGroups(arr, size) {
   return myArray;
 }
 
+
 function objectFromArrays(arrA, arrB) {
   return Object.fromEntries(arrA.map((_, i) => [arrA[i], arrB[i]]));
 }
 
-// actual component
 
-
-export default class gameFalloutHacking {
+export default class FallHackGame {
 
   textScreenCount = 2;
   textScreenRowCount = 16;
@@ -267,13 +269,12 @@ export default class gameFalloutHacking {
   }
 
   getTextField() {
-    const brackets = this.leftBrackets.concat(this.rightBrackets);
     const wordSpace = this.wordLength * this.wordNumber;
     const garbage = Array(this.fieldSize - wordSpace).fill('');
 
     let textField = garbage.map(() => {
       if (getRandomInt(0, 100) <= this.chance) {
-        return getRandomFromArray(brackets);
+        return getRandomFromArray(this.cheats);
       } else {
         return getRandomFromArray(this.garbageChars);
       }

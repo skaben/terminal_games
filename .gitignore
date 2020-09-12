@@ -1,3 +1,5 @@
 .vscode
 .env
 .conf
+node_modules/
+dist/

@@ -5,6 +5,7 @@ export default class LoadingScreen {
 
     constructor(message = 'informational message') {
       this.message = message;
+      
       this.render();
       this.initEventListeners();
     }
@@ -13,7 +14,7 @@ export default class LoadingScreen {
       document.body.addEventListener("pointerdown", e => {
         this.moving.classList.remove("rotate");
         this.animated.classList.add("scalemove");
-      })
+      });
     }
 
     get template() {
@@ -25,6 +26,7 @@ export default class LoadingScreen {
           <div class="loading__text loading__text_footer" data-element="footer">
             <span class="typewriter"></span>
           </div>
+          <a class="golink" style="position: absolute; right: 0;" href="/hack">hack</a>
           <svg
              xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
              xmlns:svg="http://www.w3.org/2000/svg"
@@ -66,6 +68,7 @@ export default class LoadingScreen {
       this.typewriter = this.element.querySelector(".typewriter");
       this.animated = this.element.querySelector(".loading__svg");
       this.moving = this.element.querySelector(".moving-path");
+      this.golink = this.element.querySelector(".golink");
       this.addTypewriterEffect(this.typewriter, this.message);
       return this.element;
     }

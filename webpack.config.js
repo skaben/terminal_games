@@ -43,13 +43,20 @@ module.exports = (_, { mode }) => ({
           ],
         },
       },
-      // images
+      // files
       {
 				test: /\.(png|gif|jpg|svg)$/,
 				loader: 'file-loader',
 				options: {
 					outputPath: "images/",
 				},
+      },
+      {
+        test: /\.mp3$/,
+        loader: 'file-loader',
+        options: {
+          outputPath: "sounds/", name: "[name].mp3",
+        },
       },
       // fonts
       {

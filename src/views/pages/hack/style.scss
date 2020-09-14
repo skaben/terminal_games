@@ -1,0 +1,52 @@
+.interface {
+  width: 80vw;
+  margin-top: 4rem;
+  margin-left: 4rem;
+  font-size: 1.75rem;
+  clear: both;
+  box-sizing: border-box;
+  background: none;
+}
+
+.interface_content {
+  margin-top: 4rem;
+  height: 70vh;
+}
+
+.content {
+  box-sizing: border-box;
+  float: left;
+  width: auto;
+  min-width: 1px;
+  height: auto;
+  opacity: 90%;
+  z-index: 100;
+}
+
+.content_right {
+  margin-left: 32px;
+}
+
+.content_service {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.content_service__log {
+  height: 100px;
+  flex-basis: 80%;
+}
+
+.content_service__cli {
+  min-height: 2rem;
+  margin-top: 1rem;
+}
+
+.row__index {
+  margin-right: 8px;
+}
+
+.highlighted {
+  color: red;
+}

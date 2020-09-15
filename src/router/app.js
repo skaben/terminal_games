@@ -12,5 +12,6 @@ window.onpopstate = playSound;
 router
   .addRoute(/^$/, 'main')
   .addRoute(/^hack$/, 'hack')
+  .addRoute(/^404\/?$/, 'main')
   .setNotFoundPagePath('main')
   .listen();

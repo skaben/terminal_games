@@ -1,5 +1,5 @@
 import Typed from 'typed.js';
-
+import "./style.scss";
 
 export default class LoadingScreen {
 

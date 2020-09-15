@@ -7,6 +7,11 @@ body,html {
     color: rgba(235, 255, 223, 0.75);
 }
 
+.animate-centered {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
 .screen {
   position: absolute;
   height: 100vh;
@@ -62,95 +67,32 @@ body,html {
 }
 
 .screen__effects-stripe {
-  width: 100%;
-  height: 1px;
-  box-shadow: 2px -5px 14px 1px white;
-  background: white;
-  opacity: .35;
-  -webkit-animation: upToBottom 8s infinite linear;
-  animation: upToBottom 8s infinite linear;
-  z-index: 999;
+   width: 100%;
+   height: 1px;
+   box-shadow: 2px -5px 14px 1px white;
+   background: white;
+   opacity: .35;
+   -webkit-animation: upToBottom 8s infinite linear;
+   animation: upToBottom 8s infinite linear;
+   z-index: 999;
 }
 
-.animate-centered {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.rotate {
-  animation: rotate 15s linear infinite;
+@keyframes upToBottom {
+    -1% { transform: translateY(-5vh); }
+    100% { transform: translateY(105vh); }
 }
 
 .pulse {
   animation: pulse 3s ease-in-out infinite alternate;
 }
 
-.scalemove {
-  animation: scaleAndMove .4s ease-in-out forwards;
-  transition: .3s;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 @keyframes pulse {
-  from { opacity: .1; }
+  from { opacity: .0; }
   to { opacity: .25; }
-}
-
-@keyframes upToBottom {
-    0% { transform: translateY(-5vh); }
-    100% { transform: translateY(105vh); }
 }
 
 @keyframes pulsebg {
   from { opacity: 1; };
   to { opacity: .7; };
 }
-
-@keyframes scaleAndMove {
-  0% {
-    transform: scale(1);
-  }
-  40% {
-    transform: scale(.3);
-  }
-  100% {
-    transform: translateY(45%) translateX(85%) scale(.3);
-    opacity: .2;
-  }
-}
-
-.loading {
-  width: auto;
-  max-width: 25%;
-  padding: 3rem;
-  font-size: 1.2rem;
-}
-
-.loading__text {
-  position: absolute;
-  width: 50%;
-}
-
-.loading__text_footer {
-  bottom: 7vh;
-}
-
-.loading__text_header {
-  top: 5vh;
-  font-size: 2rem;
-  text-transform: uppercase;
-}
-
-.loading__svg {
-    display: block;
-    width: 50vw;
-    height: 90vh;
-    fill: rgba(235, 255, 223, .5);
-    position: absolute;
-    right: 25vw;
-    top: 1vh;
-}
+  

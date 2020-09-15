@@ -1,7 +1,5 @@
 import HackScreen from "../../components/hack";
 
-import "../../../assets/styles/fonts.scss";
-import './style.scss';
 
 export default class Page {
 

@@ -22,7 +22,8 @@ module.exports = (_, { mode }) => ({
 
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: 'js/bundle.js'
+    filename: 'js/bundle.js',
+    publicPath: "/",
   },
 
   module: {
@@ -99,6 +100,7 @@ module.exports = (_, { mode }) => ({
   devServer: {
     contentBase: path.join(__dirname, 'src'),
     compress: true,
+    historyApiFallback: true,
     port: 9000
   }
 });

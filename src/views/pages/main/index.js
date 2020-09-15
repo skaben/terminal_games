@@ -1,7 +1,8 @@
 import LoadingScreen from "../../components/loading";
 
+import "../../../assets/styles/style.scss";
 import "../../../assets/styles/fonts.scss";
-import './style.scss';
+
 
 export default class Page {
 

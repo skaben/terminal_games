@@ -1,3 +1,5 @@
+import "./style.scss";
+
 function range(start, end) {
   return Array(end - start + 1).fill().map((_, idx) => start + idx)
 }
@@ -350,6 +352,7 @@ export default class FallHackGame {
     <div class="interface">
       <div class="interface_header">
         <p data-element="status">-----</p>
+        <a href="/main">main</a>
         <p> TRIES LEFT: <span data-element="tries">${"*".repeat(this.tries)}</span></p>
       </div>
       <div class="interface_content">

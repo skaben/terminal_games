@@ -7,7 +7,7 @@ const path = require('path');
 
 
 module.exports = (_, { mode }) => ({
-  entry: './src/router/app.js',
+  entry: './src/index.js',
 
   // not working at all
   resolve: {

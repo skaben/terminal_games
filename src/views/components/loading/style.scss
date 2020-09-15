@@ -45,12 +45,6 @@
   to { transform: rotate(360deg); }
 }
 
-
-@keyframes pulsebg {
-  from { opacity: 1; };
-  to { opacity: .7; };
-}
-
 @keyframes scaleAndMove {
   0% {
     transform: scale(1);

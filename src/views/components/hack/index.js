@@ -93,6 +93,22 @@ export default class FallHackGame {
     this.initEventListeners();
   }
 
+  gameWin = () => {
+    const event = new CustomEvent("gamewin", {
+      cancelable: true,
+      bubbles: true
+    });
+    this.element.dispatchEvent(event);
+  }
+
+  gameLose = () => {
+    const event = new CustomEvent("gamelose", {
+      cancelable: true,
+      bubbles: true
+    });
+    this.element.dispatchEvent(event);
+  }
+
   initEventListeners() {
     this.element.addEventListener("pointerover", this.onHover);
     this.element.addEventListener("pointerout", this.onHoverEnd);
@@ -141,6 +157,7 @@ export default class FallHackGame {
       if (target.word === this.password) {
         this.subElements.status.textContent = 'WINNED';
         this.addServiceRow("ACCESS GRANTED!");
+        setTimeout(this.gameWin, 1000);
       } else {
         const sharedChars = this.compareWithPassword(target.word);
         this.addServiceRow(`${target.word} [${sharedChars}/${this.wordLength}]`);

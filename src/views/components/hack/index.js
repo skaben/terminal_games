@@ -1,51 +1,20 @@
+import { 
+  range, 
+  shuffle, 
+  getRandomInt, 
+  getRandomFromArray,  
+  intersection,
+  chunkArrayInGroups,
+  objectFromArrays
+} from "../../../util/helpers.js";
+
+import { getData } from "../../../util/api.js";
 import "./style.scss";
-
-function range(start, end) {
-  return Array(end - start + 1).fill().map((_, idx) => start + idx)
-}
-
-
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-
-function getRandomInt(min, max) {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-
-function getRandomFromArray(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
-
-function intersection(arrA, arrB) {
-  return arrA.filter(x => arrB.includes(x));
-}
-
-
-function chunkArrayInGroups(arr, size) {
-  let myArray = [];
-  for(let i = 0; i < arr.length; i += size) {
-    myArray.push(arr.slice(i, i+size));
-  }
-  return myArray;
-}
-
-
-function objectFromArrays(arrA, arrB) {
-  return Object.fromEntries(arrA.map((_, i) => [arrA[i], arrB[i]]));
-}
 
 
 export default class FallHackGame {
+
+  dataUrl = "/api/hackdict";
 
   textScreenCount = 2;
   textScreenRowCount = 16;
@@ -59,38 +28,41 @@ export default class FallHackGame {
   cheatRestore = 10;
   cheatRemove = 100;
 
-  constructor ({
-    words = ['DESCRIBE', 'LINGERIE', 'MCMILLEN', 'OPPERMAN', 'PAVEMENT', 'QUANTITY', 'REVERENT', 'AARDVARK'],
-    password = 'AARDVARK',
-    tries = 4,
-    timeout = 0,
-    text_header = 'text in header',
-    text_footer = 'text in footer',
-    chance = 20
-  } = {}) {
-    this.words = words;
-    this.password = password || getRandomFromArray(words);
-    this.tries = tries;
-    this.chance = chance;
-    this.timeout = timeout;
-    // todo: should be removed
-    this.text_header = text_header;
-    this.text_footer = text_footer;
-    // service attributes
-    this.wordNumber = words.length;
-    this.wordLength = words[0].length;
+  async initialize() {
+    await this.loadData();
+    this.render();
+    this.initEventListeners();
+  }
+
+  loadData = async () => {
+    const {
+      words,
+      tries,
+      password,
+      timeout,
+      text_header,
+      text_footer
+    } = await getData(this.dataUrl);
+
+    this.password = password;
+    this.words = words.concat(password);
+    this.dummyWords = words;
+    this.tries = tries || 4;
+    this.timeout = timeout || 0;
+    this.text_header = text_header || "header";
+    this.text_footer = text_footer || "footer";
+
+    this.wordNumber = this.words.length;
+    this.wordLength = this.words[0].length;
     this.alphas = this.words.join('');
     this.fieldSize = this.textScreenRowCount * this.textScreenRowLength * this.textScreenCount;
     this.leftOpposites = objectFromArrays(this.leftBrackets, this.rightBrackets),
     this.rightOpposites = objectFromArrays(this.rightBrackets, this.leftBrackets),
     this.cheats = this.leftBrackets.concat(this.rightBrackets);
-    this.triesAtStart = tries;
-    this.dummyWords = words.filter(item => item !== this.password);
-    // generated attributes
+    this.triesAtStart = this.tries;
+    
     this.textField = this.getTextField();
     this.content = this.getContent();
-    this.render();
-    this.initEventListeners();
   }
 
   gameWin = () => {
@@ -389,6 +361,7 @@ export default class FallHackGame {
     wrapper.innerHTML = this.template;
     this.element = wrapper.firstElementChild;
     this.subElements = this.getSubElements(this.element);
+    this.initEventListeners();
     return this.element;
   }
 

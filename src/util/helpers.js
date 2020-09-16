@@ -1,9 +1,9 @@
-function range(start, end) {
+export function range(start, end) {
   return Array(end - start + 1).fill().map((_, idx) => start + idx)
 }
 
 
-function shuffle(array) {
+export function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
@@ -12,24 +12,24 @@ function shuffle(array) {
 }
 
 
-function getRandomInt(min, max) {
+export function getRandomInt(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
-function getRandomFromArray(items) {
+export function getRandomFromArray(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
 
 
-function intersection(arrA, arrB) {
+export function intersection(arrA, arrB) {
   return arrA.filter(x => arrB.includes(x));
 }
 
 
-function chunkArrayInGroups(arr, size) {
+export function chunkArrayInGroups(arr, size) {
   let myArray = [];
   for(let i = 0; i < arr.length; i += size) {
     myArray.push(arr.slice(i, i+size));
@@ -38,6 +38,6 @@ function chunkArrayInGroups(arr, size) {
 }
 
 
-function objectFromArrays(arrA, arrB) {
+export function objectFromArrays(arrA, arrB) {
   return Object.fromEntries(arrA.map((_, i) => [arrA[i], arrB[i]]));
 }

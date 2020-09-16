@@ -9,7 +9,8 @@ export default class Page {
 
   async initComponents() {
     const screen = new HackScreen();
-
+    await screen.initialize();
+    
     this.components.hack = screen;
     return this.components;
   }

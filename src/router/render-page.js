@@ -25,7 +25,7 @@ export default async function(path, match) {
   await page.render();
 
   setTimeout( () => {
-    changeSound.play();
+    //changeSound.play();
     contentNode.innerHTML = '';
     contentNode.appendChild(page.element);
     return page;

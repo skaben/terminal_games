@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const AutomaticPrefetchPlugin = require('prefetch-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssUrlRelativePlugin = require('css-url-relative-plugin');
 
@@ -94,6 +95,7 @@ module.exports = (_, { mode }) => ({
       filename: "css/[name].css",
       chunkFilename: "css/[id].css",
     }),
+    //new AutomaticPrefetchPlugin(),
     new CleanWebpackPlugin(),
   ],
   

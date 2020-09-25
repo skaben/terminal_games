@@ -1,7 +1,6 @@
 .menu {
-  margin-left: 5rem;
-  margin-top: 5rem;
-  font-size: 2rem;
+  margin-left: 5vw;
+  margin-top: 5vh;
 }
 
 .menu__item {
@@ -28,5 +27,5 @@
 .menu__item a:hover::before {
   visibility: visible;
   content: "> ";
-  animation: blinking 1s .15s infinite alternate-reverse;
+  animation: fadeOut 1s .15s infinite alternate-reverse;
 }

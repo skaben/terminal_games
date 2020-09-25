@@ -2,12 +2,9 @@ import LoadingScreen from "../../components/loading";
 import TextBar from "../../components/elements/textbar";
 import TypeWriter from "../../components/effects/typewriter";
 
-import "../../../assets/styles/style.scss";
-import "../../../assets/styles/fonts.scss";
-
 import "./style.scss";
+
 import { getData, HOSTURL } from "../../../util/api";
-import { renderDelay } from "../../../router/render-page";
 
 
 export default class Page {

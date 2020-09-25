@@ -5,7 +5,6 @@ import { getData, HOSTURL } from "../../../util/api.js";
 import TypeWriter from "../../components/effects/typewriter";
 
 import "./style.scss";
-import { renderDelay } from "../../../router/render-page";
 
 
 const testData = {

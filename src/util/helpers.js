@@ -41,3 +41,17 @@ export function chunkArrayInGroups(arr, size) {
 export function objectFromArrays(arrA, arrB) {
   return Object.fromEntries(arrA.map((_, i) => [arrA[i], arrB[i]]));
 }
+
+
+export function dispatchEvent(source, eventName) {
+  const event = new CustomEvent(eventName, {
+    cancelable: true,
+    bubbles: true
+  });
+  source.dispatchEvent(event);
+}
+
+export function changeUrl(url) {
+  window.history.pushState("", `page ${url}`, url);
+  window.location.href = url;
+}

@@ -1,12 +1,14 @@
 import { postData } from "./api.js";
 
+
 const listenTo = [
     "gamewin",
     "gamelose",
-    "userinput",
+    "userinput"
 ]
 
-window.addEventListener("gamewin", async () => {
-    const result = await postData({"event": "gamewin"});
-    alert(result.message);
+listenTo.forEach(eventName => {
+  window.addEventListener(eventName, async () => {
+    const result = await postData({"event": eventName});
+  });
 });

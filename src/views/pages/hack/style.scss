@@ -1,0 +1,38 @@
+.content__hack, .content__header, .content__footer {
+  box-sizing: border-box;
+  font-size: 3vh;
+  margin-left: 5vw;
+  text-transform: uppercase;
+  background: none;
+  clear: both;
+}
+
+.header {
+  margin-top: 6vh;
+  width: 90vw;
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+}
+
+.header__main, .header__nav {
+  display: inline-flex;
+}
+
+.header__nav a:hover::before {
+  animation: fadeOut 1s infinite alternate-reverse;
+}
+
+.header__main {
+  flex-basis: 100%;
+}
+
+.content__footer {
+  padding-top: 5vh;
+}
+
+.content__hack {
+  width: 80vw;
+  max-height: 80vh;
+  margin-top: 4vh;
+}

@@ -1,32 +1,26 @@
-import Typed from 'typed.js';
+import { dispatchEvent, changeUrl } from "../../../util/helpers";
+
 import "./style.scss";
 
-export default class LoadingScreen {
+export default class Loading {
 
-    constructor(message = 'informational message') {
-      this.message = message;
-      
+    constructor(timeout) {
+      this.timeout = timeout;
       this.render();
       this.initEventListeners();
     }
 
     initEventListeners() {
-      document.body.addEventListener("pointerdown", e => {
+      this.element.addEventListener("pointerdown", e => {
         this.moving.classList.remove("rotate");
         this.animated.classList.add("scalemove");
+        setTimeout(() => changeUrl('/menu'), 50);
       });
     }
 
     get template() {
       return `
         <div class="loading">
-          <div class="loading__text loading__text_header" data-element="header">
-            <span>terminal vt-40k</span>
-          </div>
-          <div class="loading__text loading__text_footer" data-element="footer">
-            <span class="typewriter"></span>
-          </div>
-          <a class="golink" style="position: absolute; right: 0;" href="/hack">hack</a>
           <svg
              xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
              xmlns:svg="http://www.w3.org/2000/svg"
@@ -50,31 +44,20 @@ export default class LoadingScreen {
       `
     }
 
-    addTypewriterEffect(element, message) {
-      return new Typed(element, {
-        strings: [message,],
-        loop: true,
-        fadeOut: true,
-        typeSpeed: 0,
-        smartBackspace: false,
-        backDelay: 15000,
-      });
-    }
-
     render() {
       const element = document.createElement('div');
       element.innerHTML = this.template;
       this.element = element.firstElementChild;
-      this.typewriter = this.element.querySelector(".typewriter");
       this.animated = this.element.querySelector(".loading__svg");
       this.moving = this.element.querySelector(".moving-path");
-      this.golink = this.element.querySelector(".golink");
-      this.addTypewriterEffect(this.typewriter, this.message);
       return this.element;
     }
 
     show(target) {
       const parent = target || document.body;
+      if (this.timeout) {
+        setTimeout(() => dispatchEvent(this.element, "loadingEnd"), this.timeout);
+      }
       parent.append(this.element);
     }
 

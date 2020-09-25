@@ -1,11 +1,37 @@
+import "./style.scss";
+
 export default class Menu {
 
-  constructor() {
+  subElements = {};
+  items = [];
+
+  testItems = [
+    ["main", "test show loading screen"],
+    ["hack", "test gain access by hack"],
+    ["menu", "test return to main menu"]
+  ];
+
+  constructor(itemArray) {
+    this.items = itemArray || this.testItems;
     this.render();
+  }
+
+  get rows() {
+    return this.items.map(item => {
+      const [href, name] = [...item];
+      return `
+        <div class="menu__item">
+          <a href="${href}" data-element="link${href}">${name}</a>
+        </div>
+      `
+    }).join('');
   }
 
   get template() {
     return `
+      <div class="menu">
+        ${this.rows}
+      </div>
     `
   }
 
@@ -13,7 +39,7 @@ export default class Menu {
     const element = document.createElement('div');
     element.innerHTML = this.template;
     this.element = element.firstElementChild;
-    this.getSubElements(this.element);
+    this.subElements = this.getSubElements(this.element);
     return this.element;
   }
 
@@ -30,12 +56,11 @@ export default class Menu {
     this.remove();
   }
 
-  getSubElements() {
+  getSubElements(element) {
     const elements = element.querySelectorAll('[data-element]');
 
     return [...elements].reduce((accum, subElement) => {
       accum[subElement.dataset.element] = subElement;
-
       return accum;
     }, {});
   }

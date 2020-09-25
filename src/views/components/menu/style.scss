@@ -1,0 +1,32 @@
+.menu {
+  margin-left: 5rem;
+  margin-top: 5rem;
+  font-size: 2rem;
+}
+
+.menu__item {
+  margin-bottom: 1rem;
+}
+
+.menu__item a {
+  text-transform: uppercase;
+  text-decoration: none;
+
+  color:  rgba(235, 255, 223, 0.75);
+  letter-spacing: 2px;
+}
+
+.menu__item a::before {
+  visibility: hidden;
+  content: "> ";
+}
+
+.menu__item a:hover {
+  color: white;
+}
+
+.menu__item a:hover::before {
+  visibility: visible;
+  content: "> ";
+  animation: blinking 1s .15s infinite alternate-reverse;
+}

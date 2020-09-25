@@ -1,39 +1,16 @@
-.loading {
-  width: auto;
-  max-width: 25%;
-  padding: 3rem;
-  font-size: 1.2rem;
-}
-
-.loading__text {
-  position: absolute;
-  width: 50%;
-}
-
-.loading__text_footer {
-  bottom: 7vh;
-}
-
-.loading__text_header {
-  top: 5vh;
-  font-size: 2rem;
-  text-transform: uppercase;
-}
-
 .loading__svg {
-    display: block;
-    width: 50vw;
-    height: 90vh;
-    fill: rgba(235, 255, 223, .5);
-    position: absolute;
-    right: 25vw;
-    top: 1vh;
+  display: block;
+  width: 50vw;
+  height: 85vh;
+  fill: rgba(235, 255, 223, .5);
+  position: absolute;
+  right: 25vw;
+  top: 5vh;
 }
 
 .rotate {
   animation: rotate 15s linear infinite;
 }
-
 
 .scalemove {
   animation: scaleAndMove .4s ease-in-out forwards;

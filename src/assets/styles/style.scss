@@ -7,6 +7,25 @@ body,html {
     color: rgba(235, 255, 223, 0.75);
 }
 
+a {
+  color: rgba(235, 255, 223, 0.75);
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+}
+
+a::before {
+  display: inline;
+  content: ">";
+  margin-right: 8px;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
 .animate-centered {
   transform-box: fill-box;
   transform-origin: center;
@@ -89,6 +108,10 @@ body,html {
 
 .screen__content .page {
   animation: fadeIn .15s ease-in alternate-reverse;
+}
+
+.blinking {
+  animation: fadeOut 1s .15s infinite alternate-reverse;
 }
 
 @keyframes upToBottom {

@@ -5,16 +5,16 @@ import {
   getRandomFromArray,  
   intersection,
   chunkArrayInGroups,
-  objectFromArrays
+  objectFromArrays,
+  dispatchEvent
 } from "../../../util/helpers.js";
 
-import { getData } from "../../../util/api.js";
+import TypeWriter from "../effects/typewriter";
+
 import "./style.scss";
 
 
 export default class FallHackGame {
-
-  dataUrl = "/api/hackdict";
 
   textScreenCount = 2;
   textScreenRowCount = 16;
@@ -25,32 +25,23 @@ export default class FallHackGame {
   wordRanges = {};
   serviceLog = [];
 
-  cheatRestore = 10;
-  cheatRemove = 100;
+  gameWin = () => this.dispatchEvent(this.element, "gamewin");
+  gameLose = () => this.dispatchEvent(this.element, "gamelose");
 
-  async initialize() {
-    await this.loadData();
-    this.render();
-    this.initEventListeners();
-  }
-
-  loadData = async () => {
-    const {
+  constructor({
       words,
       tries,
-      password,
+      password, 
       timeout,
-      text_header,
-      text_footer
-    } = await getData(this.dataUrl);
+      chance
+    }) {
 
     this.password = password;
     this.words = words.concat(password);
     this.dummyWords = words;
     this.tries = tries || 4;
     this.timeout = timeout || 0;
-    this.text_header = text_header || "header";
-    this.text_footer = text_footer || "footer";
+    this.chance = chance;
 
     this.wordNumber = this.words.length;
     this.wordLength = this.words[0].length;
@@ -60,25 +51,14 @@ export default class FallHackGame {
     this.rightOpposites = objectFromArrays(this.rightBrackets, this.leftBrackets),
     this.cheats = this.leftBrackets.concat(this.rightBrackets);
     this.triesAtStart = this.tries;
-    
+    this.cheatRestore = Math.floor(chance / 5);
+    this.cheatRemove = chance;
+
     this.textField = this.getTextField();
     this.content = this.getContent();
-  }
 
-  gameWin = () => {
-    const event = new CustomEvent("gamewin", {
-      cancelable: true,
-      bubbles: true
-    });
-    this.element.dispatchEvent(event);
-  }
-
-  gameLose = () => {
-    const event = new CustomEvent("gamelose", {
-      cancelable: true,
-      bubbles: true
-    });
-    this.element.dispatchEvent(event);
+    this.render();
+    this.initEventListeners();
   }
 
   initEventListeners() {
@@ -89,6 +69,7 @@ export default class FallHackGame {
 
   onHover = (event) => {
     //return;
+    this.subElements.cli.innerHTML = '';
     const char = event.target.closest(".char");
     if (!char) return;
     const check = this.checkChar(char);
@@ -100,11 +81,13 @@ export default class FallHackGame {
 
     if (check.word) {
       this.subElements.cli.textContent = check.word;
+      this.subElements.cursor.classList.add("blinking");
     }
   }
 
   onHoverEnd = (event) => {
     //return;
+    this.subElements.cli.innerHTML = '';
     const char = event.target.closest(".char");
     if (!char) return;
     const check = this.checkChar(char);
@@ -114,7 +97,9 @@ export default class FallHackGame {
       item.removeEventListener(item, this.onHover);
     });
 
-    this.subElements.cli.textContent = '';
+    if (check.word) {
+      this.subElements.cursor.classList.remove("blinking");
+    };
   }
 
   onClick = (event) => {
@@ -180,7 +165,7 @@ export default class FallHackGame {
 
   addServiceRow(content) {
     const templateRow = `<div class="service__row">${content}</div>`;
-    this.serviceLog.push(templateRow);
+    this.serviceLog.unshift(templateRow);
     this.subElements.log.innerHTML = this.serviceLog.join('');
   }
 
@@ -339,17 +324,18 @@ export default class FallHackGame {
   get template() {
     return `
     <div class="interface">
-      <div class="interface_header">
-        <p data-element="status">-----</p>
-        <a href="/main">main</a>
+      <div class="interface_header" data-element="header">
         <p> TRIES LEFT: <span data-element="tries">${"*".repeat(this.tries)}</span></p>
       </div>
       <div class="interface_content">
         <div class="content">${this.content.left}</div>
-        <div class="content content_right">${this.content.right}</div>
-        <div class="content content_service content_right">
+        <div class="content">${this.content.right}</div>
+        <div class="content content_service">
           <div class="content_service__log" data-element="log"></div>
-          <div class="content_service__cli"> >> <span data-element="cli"></span></div>
+          <div class="content_service__cli">
+            <span class="cli-cursor" data-element="cursor">>> </span>
+            <span data-element="cli"></span>
+          </div>
         </div>
       </div>
     </div>

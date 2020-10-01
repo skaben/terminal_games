@@ -326,6 +326,7 @@ export default class FallHackGame {
     <div class="interface">
       <div class="interface_header" data-element="header">
         <p> TRIES LEFT: <span data-element="tries">${"*".repeat(this.tries)}</span></p>
+        <p data-element="status"></p>
       </div>
       <div class="interface_content">
         <div class="content">${this.content.left}</div>

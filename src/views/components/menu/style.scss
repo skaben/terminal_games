@@ -24,7 +24,7 @@
   color: white;
 }
 
-.menu__item a:hover::before {
+.menu__item a:hover::before, a:focus::before {
   visibility: visible;
   content: "> ";
   animation: fadeOut 1s .15s infinite alternate-reverse;

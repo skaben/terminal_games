@@ -11,7 +11,7 @@ export default class Page {
     subElements = {};
     components = {};
 
-    URL = new URL("/api/hack", HOSTURL);
+    URL = new URL("/api/menu", HOSTURL);
   
     async initComponents() {
       const data = await getData(this.URL);

@@ -5,6 +5,7 @@ export default class TypeWriter {
   punctuation = "[.,\/#!$%\^&\*;:{}=\-_`~()]".split('');
   overall;
   totalTime;
+  spedUp = 1;
 
   constructor(target, {
     text,
@@ -20,6 +21,7 @@ export default class TypeWriter {
     this.target = target;
     this.content = this.initialize(text || this.target.textContent);
     this.totalTime = this.delay + this.overall;
+    this.initEventListeners();
   }
 
   initialize(textData) {
@@ -36,13 +38,22 @@ export default class TypeWriter {
       accum[index] = [item, this.overall];
       return accum;
     }, {});
+  }
 
+  initEventListeners() {
+    document.addEventListener("keyup", event => {
+      if ([" ", "Enter"].includes(event.key)) {
+        this.spedUp -= 0.2;
+        if (this.spedUp < 0) this.spedUp = 0;
+      }
+    });
   }
 
   async print() {
     this.target.textContent = '';
     await new Promise(r => setTimeout(r, this.delay));
     for (const item of Object.values(this.content)) {
+      item[1] = Math.round(item[1] * this.spedUp);
       setTimeout(() => {
         this.target.textContent += item[0];
       }, item[1]);
@@ -54,6 +65,7 @@ export default class TypeWriter {
 
     await new Promise(() => setTimeout(finalize, this.overall));
   }
+
 
   remove() {
     this.element.remove()

@@ -20,6 +20,14 @@
   display: inline-flex;
 }
 
+.header__nav {
+  min-width: 5vw;
+}
+
+.header__nav a::before {
+  content: "> ";  // firefox fix
+}
+
 .header__nav a:hover::before {
   animation: fadeOut 1s infinite alternate-reverse;
 }

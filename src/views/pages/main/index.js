@@ -7,6 +7,12 @@ import "./style.scss";
 import { getData, HOSTURL } from "../../../util/api";
 
 
+const pageDefaults = {
+  header: "error: terminal uplink disabled",
+  footer: "call system administrator ASAP"
+}
+
+
 export default class Page {
 
   element;
@@ -16,8 +22,7 @@ export default class Page {
   URL = new URL("/api/device", HOSTURL);
 
   async initComponents() {
-
-    const data = await getData(this.URL);
+    const data = await getData(this.URL) || pageDefaults;
 
     const header = new TextBar("header", data.header),
           main = new LoadingScreen(data.timeout || 0),

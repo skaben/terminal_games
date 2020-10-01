@@ -1,21 +1,10 @@
 import HackScreen from "../../components/hack";
 import TextBar from "../../components/elements/textbar";
-import { dispatchEvent } from "../../../util/helpers";
+import { dispatchEvent, goRoot } from "../../../util/helpers";
 import { getData, HOSTURL } from "../../../util/api.js";
 import TypeWriter from "../../components/effects/typewriter";
 
 import "./style.scss";
-
-
-const testData = {
-  words: ["BAR", "DAR", "VAR", "KAR", "ZAR", "CAR", "TAR"],
-  tries: 4,
-  password: "AAR",
-  timeout: 0,
-  chance: 40,
-  text_header: "terminal vt40k stand-alone mode",
-  text_footer: "uplink disabled, terminal offline"
-}
 
 
 export default class Page {
@@ -27,14 +16,19 @@ export default class Page {
   URL = new URL("/api/hack", HOSTURL);
 
   async initComponents() {
-    const data = await getData(this.URL) || testData;
+    try {
+      const data = await getData(this.URL);
 
-    this.components.header = new TextBar("header", data.text_header, {"back": "/"});
-    this.components.footer = new TextBar("footer", data.text_footer);
-    this.components.hack = new HackScreen(data)
+      this.components.header = new TextBar("header", data.text_header, {"back": "/"});
+      this.components.footer = new TextBar("footer", data.text_footer);
+      this.components.hack = new HackScreen(data)
 
-    this.assignTypewriters();
-    return this.components;
+      this.assignTypewriters();
+      return this.components;
+
+    } catch (err) {
+      await goRoot(err);
+    }
   }
 
   assignTypewriters() {

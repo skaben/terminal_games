@@ -3,6 +3,7 @@ import { getData, HOSTURL } from "../../../util/api";
 import TypeWriter from "../../components/effects/typewriter";
 
 import "../../../assets/styles/style.scss";
+import { goRoot, dispatchEvent } from "../../../util/helpers";
 
 
 export default class Page {
@@ -14,19 +15,26 @@ export default class Page {
     URL = new URL("/api/menu", HOSTURL);
   
     async initComponents() {
-      const data = await getData(this.URL);
-      const menu = new Menu(data);
+      try {
+        const data = await getData(this.URL);
+        if (!data) { throw new Error("missing data") };
 
-      const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
-      // todo: solution via promises
-      typewriters.forEach((item, index, array) => {
-        const prev = array[index - 1];
-        if (prev) item.delay = prev.overall + prev.delay;
-        item.print();
-      });
+        const menu = new Menu(data);
 
-      this.components.menu = menu;
-      return this.components;
+        const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
+        // todo: solution via promises
+        typewriters.forEach((item, index, array) => {
+          const prev = array[index - 1];
+          if (prev) item.delay = prev.overall + prev.delay;
+          item.print();
+        });
+
+        this.components.menu = menu;
+        return this.components;
+
+      } catch (err) {
+        await goRoot(err);
+      }
     }
   
     get template () {

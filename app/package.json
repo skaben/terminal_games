@@ -33,11 +33,9 @@
     "resolve-url-loader": "^3.1.1",
     "sass-loader": "^9.0.3",
     "style-loader": "^1.2.1",
+    "typeit": "^7.0.4",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
-  },
-  "dependencies": {
-    "typeit": "^7.0.4"
   }
 }

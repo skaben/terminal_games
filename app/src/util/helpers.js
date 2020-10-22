@@ -57,5 +57,5 @@ export function changeUrl(url) {
 }
 
 export function goRoot() {
-  return changeUrl('/');
+  return changeUrl('/main');
 }

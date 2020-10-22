@@ -2,8 +2,12 @@ version: '3'
 
 services:
   npm_termgame:
-    image: termgame:latest
     build: .
-    command: "npm run start:dev"
+    volumes:
+      - ./app/src:/app/src
+      - ./app/webpack.config.js:/app/webpack.config.js
+    command: >
+      sh -c "npm run build && 
+             npm run start:dev"
     ports:
       - "9000:9000"

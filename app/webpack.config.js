@@ -8,7 +8,7 @@ const path = require('path');
 
 
 module.exports = (_, { mode }) => ({
-  entry: './src/index.js',
+  entry: '/app/src/index.js',
 
   // not working at all
   resolve: {

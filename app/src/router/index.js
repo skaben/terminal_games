@@ -79,6 +79,7 @@ export default class Router {
   }
 
   listen () {
+    alert('start listening...');
     window.addEventListener('popstate', () => this.route());
     this.route();
   }

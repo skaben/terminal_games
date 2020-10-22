@@ -55,3 +55,7 @@ export function changeUrl(url) {
   window.history.pushState("", `page ${url}`, url);
   window.location.href = url;
 }
+
+export function goRoot() {
+  return changeUrl('/');
+}

@@ -3,7 +3,7 @@ import { getData, HOSTURL } from "../../../util/api";
 import TypeWriter from "../../components/effects/typewriter";
 
 import "../../../assets/styles/style.scss";
-import { goRoot, dispatchEvent } from "../../../util/helpers";
+import { goRoot } from "../../../util/helpers";
 
 
 export default class Page {
@@ -13,7 +13,7 @@ export default class Page {
     components = {};
 
     URL = new URL("/api/menu", HOSTURL);
-  
+
     async initComponents() {
       try {
         const data = await getData(this.URL);
@@ -36,7 +36,7 @@ export default class Page {
         await goRoot(err);
       }
     }
-  
+
     get template () {
       return `
         <div class="page">
@@ -44,48 +44,47 @@ export default class Page {
         </div>
       `;
     }
-  
+
     async render () {
       const element = document.createElement('div');
-  
+
       element.innerHTML = this.template;
-  
+
       this.element = element.firstElementChild;
       this.subElements = this.getSubElements(this.element);
-  
+
       await this.initComponents();
       this.renderComponents();
-  
+
       return this.element;
     }
-  
+
     renderComponents () {
       Object.keys(this.components).forEach(component => {
         const root = this.subElements[component];
         this.components[component].show(root);
       });
     }
-  
+
     getSubElements ($element) {
       const elements = $element.querySelectorAll('[data-element]');
-  
+
       return [...elements].reduce((accum, subElement) => {
         accum[subElement.dataset.element] = subElement;
-  
+
         return accum;
       }, {});
     }
-  
+
     remove () {
       this.element.remove();
     }
-  
+
     destroy () {
       this.remove();
-  
+
       for (const component of Object.values(this.components)) {
         component.destroy();
       }
     }
   }
-  

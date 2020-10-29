@@ -43,10 +43,11 @@ export function objectFromArrays(arrA, arrB) {
 }
 
 
-export function dispatchEvent(source, eventName) {
+export function dispatchEvent(source, eventName, detail={}) {
   const event = new CustomEvent(eventName, {
     cancelable: true,
-    bubbles: true
+    bubbles: true,
+    detail: detail
   });
   source.dispatchEvent(event);
 }

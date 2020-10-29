@@ -6,8 +6,8 @@ services:
     volumes:
       - ./app/src:/app/src
       - ./app/webpack.config.js:/app/webpack.config.js
+      - ./dist:/app/dist
     command: >
-      sh -c "npm run build && 
-             npm run start:dev"
+      sh -c "npm run build"
     ports:
       - "9000:9000"

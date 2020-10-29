@@ -30,8 +30,7 @@ export default class Router {
   }
 
   async route() {
-    let strippedPath = decodeURI(window.location.pathname)
-      .replace(/^\/|\/$/, '');
+    const strippedPath = decodeURI(window.location.pathname).replace(/^\/|\/$/, '');
 
     let match;
 
@@ -59,7 +58,6 @@ export default class Router {
     if (this.page && this.page.destroy) {
       this.page.destroy();
     }
-
     return renderPage(path, match);
   }
 
@@ -79,7 +77,6 @@ export default class Router {
   }
 
   listen () {
-    alert('start listening...');
     window.addEventListener('popstate', () => this.route());
     this.route();
   }

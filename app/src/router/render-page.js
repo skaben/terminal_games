@@ -2,7 +2,7 @@
 
 import("../assets/sounds/screen_change.mp3");
 
-const changeSound = new Audio("../assets/sounds/screen_change.mp3");
+// const changeSound = new Audio("../assets/sounds/screen_change.mp3");
 
 import hackPage from "../views/pages/hack";
 import menuPage from "../views/pages/menu";
@@ -24,7 +24,7 @@ export default async function(path, match) {
   const contentNode = document.querySelector(".screen__content");
   contentNode.innerHTML = loadingTemplate;
 
-  const Page = pages[path] || pages["loading"];
+  const Page = pages[path] || pages["main"];
   const page = new Page();
   await page.render();
 

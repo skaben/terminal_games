@@ -5,6 +5,7 @@ import TypeWriter from "../../components/effects/typewriter";
 import "./style.scss";
 
 import { getData, HOSTURL } from "../../../util/api";
+import socket from "../../../util/socket";
 
 
 const pageDefaults = {
@@ -21,6 +22,8 @@ export default class Page {
 
   URL = new URL("/api/device", HOSTURL);
 
+  testEmit = () => socket.emit("testws");
+
   async initComponents() {
     const data = await getData(this.URL) || pageDefaults;
 
@@ -31,7 +34,7 @@ export default class Page {
     const headerTyping = new TypeWriter(header.subElements.main);
 
     const footerTyping = new TypeWriter(footer.subElements.main, {
-                                          delay: headerTyping.totalTime, 
+                                          delay: headerTyping.totalTime,
                                         });
 
     headerTyping.print();
@@ -66,6 +69,8 @@ export default class Page {
 
     await this.initComponents();
     this.renderComponents();
+
+    this.testEmit();
 
     return this.element;
   }

@@ -1,5 +1,6 @@
-import { postData } from "./api.js";
+import { postData } from "./api";
 
+// client-side
 
 const listenTo = [
     "gamewin",
@@ -9,6 +10,12 @@ const listenTo = [
 
 listenTo.forEach(eventName => {
   window.addEventListener(eventName, async () => {
-    const result = await postData({"event": eventName});
+    await postData({"event": eventName});
   });
 });
+
+// server-side
+
+window.addEventListener("switchpage", e => {
+  window.location.href = e.detail;
+})

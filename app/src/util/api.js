@@ -1,5 +1,8 @@
-export const HOSTURL = "http://127.0.0.1:5000";
-const APIURL = new URL("/api", HOSTURL);
+import { dispatchEvent } from "../util/helpers";
+
+export const HOSTURL = "http://localhost:5000";
+const APIURL = new URL("/api/event", HOSTURL);
+
 
 export async function postData(data) {
     let response = await fetch(APIURL, {
@@ -9,8 +12,16 @@ export async function postData(data) {
       },
       body: JSON.stringify(data)
     });
-    const result = await response.json();
-    return result;
+
+    try {
+      const result = await response.json();
+      if (result.switchpage) {
+        dispatchEvent(window, "switchpage", result.switchpage);
+      }
+      return result;
+    } catch (err) {
+      console.error(`POST error: ${err}`);
+    }
 }
 
 

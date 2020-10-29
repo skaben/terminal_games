@@ -1,18 +1,16 @@
-import { 
-  range, 
-  shuffle, 
-  getRandomInt, 
-  getRandomFromArray,  
+import {
+  range,
+  shuffle,
+  getRandomInt,
+  getRandomFromArray,
   intersection,
   chunkArrayInGroups,
   objectFromArrays,
   dispatchEvent
 } from "../../../util/helpers.js";
 
-import TypeWriter from "../effects/typewriter";
-
 import "./style.scss";
-
+import socket from "../../../util/socket";
 
 export default class FallHackGame {
 
@@ -25,13 +23,15 @@ export default class FallHackGame {
   wordRanges = {};
   serviceLog = [];
 
-  gameWin = () => this.dispatchEvent(this.element, "gamewin");
-  gameLose = () => this.dispatchEvent(this.element, "gamelose");
+  gameWin = () => socket.emit("gamewin");
+  gameLose = () => socket.emit("gamelose");
+  //gameWin = () => dispatchEvent(this.element, "gamewin");
+  //gameLose = () => dispatchEvent(this.element, "gamelose");
 
   constructor({
       words,
       tries,
-      password, 
+      password,
       timeout,
       chance
     }) {
@@ -152,6 +152,7 @@ export default class FallHackGame {
     if (this.tries <= 0) {
       this.subElements.status.textContent = "FAILED";
       this.addServiceRow("ACCESS DENIED!");
+      this.gameLose();
     }
   }
 

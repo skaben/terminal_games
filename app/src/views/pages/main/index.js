@@ -20,15 +20,15 @@ export default class Page {
   subElements = {};
   components = {};
 
-  URL = new URL("/api/device", HOSTURL);
-
-  testEmit = () => socket.emit("testws");
+  URL = new URL("/api/data", HOSTURL);
 
   async initComponents() {
     const data = await getData(this.URL) || pageDefaults;
 
+    const nextScreen = "/menu" ? !data.blocked : '';
+
     const header = new TextBar("header", data.header),
-          main = new LoadingScreen(data.timeout || 0),
+          main = new LoadingScreen(data.timeout || 0, nextScreen),
           footer = new TextBar("footer", data.footer);
 
     const headerTyping = new TypeWriter(header.subElements.main);
@@ -69,8 +69,6 @@ export default class Page {
 
     await this.initComponents();
     this.renderComponents();
-
-    this.testEmit();
 
     return this.element;
   }

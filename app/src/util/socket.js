@@ -25,5 +25,4 @@ socket.on('cmd_switch', (message) => {
   window.location.href = message.data;
 });
 
-
 export default socket;

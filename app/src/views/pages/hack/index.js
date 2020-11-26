@@ -12,15 +12,15 @@ export default class Page {
   element;
   subElements = {};
   components = {};
-  
+
   URL = new URL("/api/hack", HOSTURL);
 
   async initComponents() {
     try {
       const data = await getData(this.URL);
 
-      this.components.header = new TextBar("header", data.text_header, {"back": "/"});
-      this.components.footer = new TextBar("footer", data.text_footer);
+      this.components.header = new TextBar("header", data.header, {"back": "/"});
+      this.components.footer = new TextBar("footer", data.footer);
       this.components.hack = new HackScreen(data)
 
       this.assignTypewriters();
@@ -46,7 +46,7 @@ export default class Page {
                                       }),
 
           footerTyper = new TypeWriter(this.components.footer.element, {
-                                        speed: 25, 
+                                        speed: 25,
                                         delay: headerTyper.delay + headerTyper.overall,
                                         onComplete: () => toggle(this.components.hack.element)
                                       });

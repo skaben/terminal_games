@@ -4,18 +4,21 @@ import "./style.scss";
 
 export default class Loading {
 
-    constructor(timeout) {
+    constructor(timeout, nextScreen) {
       this.timeout = timeout;
+      this.nextScreen = nextScreen;
       this.render();
       this.initEventListeners();
     }
 
     initEventListeners() {
-      this.element.addEventListener("pointerdown", e => {
-        this.moving.classList.remove("rotate");
-        this.animated.classList.add("scalemove");
-        setTimeout(() => changeUrl('/menu'), 50);
-      });
+      if (this.nextScreen) {
+        this.element.addEventListener("pointerdown", e => {
+          this.moving.classList.remove("rotate");
+          this.animated.classList.add("scalemove");
+          setTimeout(() => changeUrl('/menu'), 50);
+        });
+      }
     }
 
     get template() {

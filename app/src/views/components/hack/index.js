@@ -6,7 +6,6 @@ import {
   intersection,
   chunkArrayInGroups,
   objectFromArrays,
-  dispatchEvent
 } from "../../../util/helpers.js";
 
 import "./style.scss";

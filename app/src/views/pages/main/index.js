@@ -4,7 +4,7 @@ import TypeWriter from "../../components/effects/typewriter";
 
 import "./style.scss";
 
-import { getData, HOSTURL } from "../../../util/api";
+import { getData } from "../../../util/api";
 
 const testData = {
   'footer': 'text in main footer',

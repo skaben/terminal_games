@@ -1,6 +1,5 @@
 import { dispatchEvent } from "../util/helpers";
 
-export const HOSTURL = "http://localhost:5000";
 const APIURL = new URL("/api/event", HOSTURL);
 
 

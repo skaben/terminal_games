@@ -1,7 +1,7 @@
 import HackScreen from "../../components/hack";
 import TextBar from "../../components/elements/textbar";
 import { goRoot } from "../../../util/helpers";
-import { getData, HOSTURL } from "../../../util/api.js";
+import { getData } from "../../../util/api.js";
 import TypeWriter from "../../components/effects/typewriter";
 
 import "./style.scss";

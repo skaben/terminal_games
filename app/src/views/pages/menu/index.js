@@ -1,5 +1,5 @@
 import Menu from "../../components/menu";
-import { getData, HOSTURL } from "../../../util/api";
+import { getData } from "../../../util/api";
 import TypeWriter from "../../components/effects/typewriter";
 
 import "../../../assets/styles/style.scss";

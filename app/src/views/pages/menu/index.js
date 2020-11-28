@@ -6,7 +6,18 @@ import "../../../assets/styles/style.scss";
 import { goRoot } from "../../../util/helpers";
 
 
+const testItems = [
+  {
+    'game': 'fallout',
+    'href': '/hack',
+    'name': 'hack terminal',
+    'timer': -1
+  }
+]
+
 export default class Page {
+
+    // should generate all sub-pages for menu-items too
 
     element;
     subElements = {};
@@ -16,10 +27,13 @@ export default class Page {
 
     async initComponents() {
       try {
-        const data = await getData(this.URL);
-        if (!data) { throw new Error("missing data") };
+        //const data = await getData(this.URL);
 
-        const menu = new Menu(data);
+        // if (!data) {
+        //   throw new Error("missing data")
+        // };
+
+        const menu = new Menu(testItems);
 
         const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
         // todo: solution via promises
@@ -33,6 +47,7 @@ export default class Page {
         return this.components;
 
       } catch (err) {
+        console.error(err);
         await goRoot(err);
       }
     }

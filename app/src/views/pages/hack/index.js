@@ -1,11 +1,22 @@
 import HackScreen from "../../components/hack";
 import TextBar from "../../components/elements/textbar";
-import { dispatchEvent, goRoot } from "../../../util/helpers";
+import { goRoot } from "../../../util/helpers";
 import { getData, HOSTURL } from "../../../util/api.js";
 import TypeWriter from "../../components/effects/typewriter";
 
 import "./style.scss";
 
+const testData = {
+  "words": ['AARDVARK', "TESTWORD", "WORDTEST", "VAARDARK", "TESTTEST", "WORDWORD", "ESTESTTT"],
+  "password": "PASSWORD",
+  "tries": 4,
+  "timeout": 0,
+  "cheatChance": 20,
+  "cheatRemove": 10,
+  "cheatRestore": 50,
+  "header": 'text in hack header',
+  "footer": 'text in hack footer'
+}
 
 export default class Page {
 
@@ -17,7 +28,8 @@ export default class Page {
 
   async initComponents() {
     try {
-      const data = await getData(this.URL);
+      //const data = await getData(this.URL) || testData;
+      const data = testData;
 
       this.components.header = new TextBar("header", data.header, {"back": "/"});
       this.components.footer = new TextBar("footer", data.footer);
@@ -27,6 +39,7 @@ export default class Page {
       return this.components;
 
     } catch (err) {
+      console.error(err);
       await goRoot(err);
     }
   }

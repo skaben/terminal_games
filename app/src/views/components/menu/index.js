@@ -5,23 +5,18 @@ export default class Menu {
   subElements = {};
   items = [];
 
-  testItems = [
-    ["main", "test show loading screen"],
-    ["hack", "test gain access by hack"],
-    ["menu", "test return to main menu"]
-  ];
-
-  constructor(itemArray) {
-    this.items = itemArray || this.testItems;
+  constructor(menuItems) {
+    console.log(menuItems);
+    this.items = menuItems;
     this.render();
   }
 
   get rows() {
     return this.items.map((item, index) => {
-      const [href, name] = [...item];
+      const {name, href} = item;
       return `
         <div class="menu__item">
-          <a href="/${href}" data-element="link${href}" tabindex="${index + 1}">${name}</a>
+          <a href="${href}" data-element="link${index}" tabindex="${index + 1}">${name}</a>
         </div>
       `
     }).join('');

@@ -5,14 +5,12 @@ import TypeWriter from "../../components/effects/typewriter";
 import "./style.scss";
 
 import { getData, HOSTURL } from "../../../util/api";
-import socket from "../../../util/socket";
 
-
-const pageDefaults = {
-  header: "error: terminal uplink disabled",
-  footer: "call system administrator ASAP"
+const testData = {
+  'footer': 'text in main footer',
+  'header': 'text in main header',
+  'blocked': false
 }
-
 
 export default class Page {
 
@@ -20,12 +18,15 @@ export default class Page {
   subElements = {};
   components = {};
 
-  URL = new URL("/api/data", HOSTURL);
+  URL = new URL("/api/main", HOSTURL);
 
   async initComponents() {
-    const data = await getData(this.URL) || pageDefaults;
+    //const data = await getData(this.URL);
+    const data = testData;
 
-    const nextScreen = "/menu" ? !data.blocked : '';
+    const nextScreen = "/menu"
+      ? (!data.blocked)
+      : '';
 
     const header = new TextBar("header", data.header),
           main = new LoadingScreen(data.timeout || 0, nextScreen),

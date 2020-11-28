@@ -1,105 +1,104 @@
-import LoadingScreen from "../../components/loading";
-import TextBar from "../../components/elements/textbar";
+import Menu from "../../components/menu";
+import { getData } from "../../../util/api";
 import TypeWriter from "../../components/effects/typewriter";
 
-import "./style.scss";
+import "../../../assets/styles/style.scss";
+import { goRoot } from "../../../util/helpers";
 
-import { getData } from "../../../util/api";
 
-const testData = {
-  'footer': 'text in main footer',
-  'header': 'text in main header',
-  'blocked': false
-}
+const testData = [
+  {
+    'game': 'fallout',
+    'href': '/hack',
+    'name': 'hack terminal',
+    'timer': -1
+  }
+]
 
 export default class Page {
 
-  element;
-  subElements = {};
-  components = {};
+    // should generate all sub-pages for menu-items too
 
-  URL = new URL("/api/main", HOSTURL);
+    element;
+    subElements = {};
+    components = {};
 
-  async initComponents() {
-    const apiData = await getData(this.URL);
-    const data = apiData || testData;
+    URL = new URL("/api/menu", HOSTURL);
 
-    const nextScreen = "/menu"
-      ? (!data.blocked)
-      : '';
+    async initComponents() {
+      const apiData = await getData(this.URL);
+      const data = apiData.length === 0
+                    ? testData
+                    : apiData;
 
-    const header = new TextBar("header", data.header),
-          main = new LoadingScreen(data.timeout || 0, nextScreen),
-          footer = new TextBar("footer", data.footer);
+      try {
+        const menu = new Menu(data);
 
-    const headerTyping = new TypeWriter(header.subElements.main);
+        const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
+        // todo: solution via promises
+        typewriters.forEach((item, index, array) => {
+          const prev = array[index - 1];
+          if (prev) item.delay = prev.overall + prev.delay;
+          item.print();
+        });
 
-    const footerTyping = new TypeWriter(footer.subElements.main, {
-                                          delay: headerTyping.totalTime,
-                                        });
+        this.components.menu = menu;
+        return this.components;
 
-    headerTyping.print();
-    footerTyping.print();
+      } catch (err) {
+        console.error(err);
+        await goRoot(err);
+      }
+    }
 
-    this.components.header = header;
-    this.components.footer = footer;
-    this.components.main = main;
+    get template () {
+      return `
+        <div class="page">
+          <div class="content__menu" data-element="menu"></div>
+        </div>
+      `;
+    }
 
-    this.element.addEventListener("loadingEnd", () => console.log('end loading'));
+    async render () {
+      const element = document.createElement('div');
 
-    return this.components;
-  }
+      element.innerHTML = this.template;
 
-  get template() {
-    return `
-      <div class="page">
-        <div class="content__header" data-element="header"></div>
-        <div class="content__main" data-element="main"></div>
-        <div class="content__footer" data-element="footer"></div>
-      </div>
-    `;
-  }
+      this.element = element.firstElementChild;
+      this.subElements = this.getSubElements(this.element);
 
-  async render() {
-    const element = document.createElement('div');
+      await this.initComponents();
+      this.renderComponents();
 
-    element.innerHTML = this.template;
+      return this.element;
+    }
 
-    this.element = element.firstElementChild;
-    this.subElements = this.getSubElements(this.element);
+    renderComponents () {
+      Object.keys(this.components).forEach(component => {
+        const root = this.subElements[component];
+        this.components[component].show(root);
+      });
+    }
 
-    await this.initComponents();
-    this.renderComponents();
+    getSubElements ($element) {
+      const elements = $element.querySelectorAll('[data-element]');
 
-    return this.element;
-  }
+      return [...elements].reduce((accum, subElement) => {
+        accum[subElement.dataset.element] = subElement;
 
-  renderComponents() {
-    Object.keys(this.components).forEach(component => {
-      const root = this.subElements[component];
-      this.components[component].show(root);
-    });
-  }
+        return accum;
+      }, {});
+    }
 
-  getSubElements($element) {
-    const elements = $element.querySelectorAll('[data-element]');
+    remove () {
+      this.element.remove();
+    }
 
-    return [...elements].reduce((accum, subElement) => {
-      accum[subElement.dataset.element] = subElement;
+    destroy () {
+      this.remove();
 
-      return accum;
-    }, {});
-  }
-
-  remove() {
-    this.element.remove();
-  }
-
-  destroy() {
-    this.remove();
-
-    for (const component of Object.values(this.components)) {
-      component.destroy();
+      for (const component of Object.values(this.components)) {
+        component.destroy();
+      }
     }
   }
-}

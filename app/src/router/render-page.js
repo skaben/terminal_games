@@ -4,19 +4,19 @@ import("../assets/sounds/screen_change.mp3");
 
 // const changeSound = new Audio("../assets/sounds/screen_change.mp3");
 
-import hackPage from "../views/pages/hack";
-import menuPage from "../views/pages/menu";
+import gamePage from "../views/pages/game";
 import mainPage from "../views/pages/main";
+import loadPage from "../views/pages/loading";
 
 const pages = {
-  "hack": hackPage,
-  "menu": menuPage,
-  "main": mainPage
+  "game": gamePage,
+  "main": mainPage,
+  "load": loadPage
 }
 
 const loadingTemplate = `<div class='content-preload'></div>`;
 
-export const renderDelay = 500;
+export const renderDelay = 0;
 
 export default async function(path, match) {
 //  const Page = import(`../views/pages/main`);
@@ -24,7 +24,7 @@ export default async function(path, match) {
   const contentNode = document.querySelector(".screen__content");
   contentNode.innerHTML = loadingTemplate;
 
-  const Page = pages[path] || pages["main"];
+  const Page = pages[path] || pages["load"];
   const page = new Page();
   await page.render();
 

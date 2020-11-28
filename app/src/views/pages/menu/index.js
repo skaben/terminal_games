@@ -6,7 +6,7 @@ import "../../../assets/styles/style.scss";
 import { goRoot } from "../../../util/helpers";
 
 
-const testItems = [
+const testData = [
   {
     'game': 'fallout',
     'href': '/hack',
@@ -26,14 +26,13 @@ export default class Page {
     URL = new URL("/api/menu", HOSTURL);
 
     async initComponents() {
+      const apiData = await getData(this.URL);
+      const data = apiData.length === 0
+                    ? testData
+                    : apiData;
+
       try {
-        //const data = await getData(this.URL);
-
-        // if (!data) {
-        //   throw new Error("missing data")
-        // };
-
-        const menu = new Menu(testItems);
+        const menu = new Menu(data);
 
         const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
         // todo: solution via promises

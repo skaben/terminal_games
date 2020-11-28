@@ -21,8 +21,8 @@ export default class Page {
   URL = new URL("/api/main", HOSTURL);
 
   async initComponents() {
-    //const data = await getData(this.URL);
-    const data = testData;
+    const apiData = await getData(this.URL);
+    const data = apiData || testData;
 
     const nextScreen = "/menu"
       ? (!data.blocked)

@@ -27,19 +27,21 @@ export default class Page {
   URL = new URL("/api/hack", HOSTURL);
 
   async initComponents() {
-    try {
-      //const data = await getData(this.URL) || testData;
-      const data = testData;
+    const apiData = await getData(this.URL);
+    const data = Object.keys(apiData).length === 0
+                  ? testData
+                  : apiData;
 
-      this.components.header = new TextBar("header", data.header, {"back": "/"});
-      this.components.footer = new TextBar("footer", data.footer);
+    try {
+      this.components.header = new TextBar("header", data.header || '', {"back": "/"});
+      this.components.footer = new TextBar("footer", data.footer || '');
       this.components.hack = new HackScreen(data)
 
       this.assignTypewriters();
       return this.components;
 
     } catch (err) {
-      console.error(err);
+      console.error(data);
       await goRoot(err);
     }
   }

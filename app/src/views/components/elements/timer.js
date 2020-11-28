@@ -1,18 +1,29 @@
 export default class Timer {
 
-    constructor() {
-      this.message = message;
-      this.barName = name;
-      this.typeEffect = typeEffect;
-      this.navigation = navigation;
+    counter;
+    element;
+    subElements;
+
+    constructor({
+      name,
+      timer,
+      message,
+      onEnd
+    } = props) {
+      this.timer = timer || 0;
+      this.message = message || '';
+      this.barName = name || 'timer';
+      this.onEnd = onEnd;
       this.render();
     }
 
     get template() {
       return `
         <div class="${this.barName}">
-          <div class="${this.barName}__main" data-element="main">${this.message}</div>
-          <div class="${this.barName}__nav" data-element="nav">${this.nav}</div>
+          <div class="${this.barName}__main">
+            <span data-element="main">${this.message}</span>
+            <span data-element="time"></span>
+          </div>
         </div>
       `
     }
@@ -22,14 +33,11 @@ export default class Timer {
       element.innerHTML = this.template;
       this.subElements = this.getSubElements(element);
       this.element = element.firstElementChild;
-
-      if (this.typeEffect) {this.assignTypeWriter()};
-
       return this.element;
     }
 
     get nav() {
-      if (!this.navigation) return '';
+      if (!this.timer) return '';
 
       return Object.entries(this.navigation).map(entry => {
         const [text, link] = [...entry];
@@ -37,25 +45,33 @@ export default class Timer {
       }).join('');
     }
 
-    assignTypeWriter() {
-      this.subElements.main.textContent = '';
-      new TypeIt(this.subElements.main, {
-        strings: [this.message,],
-        cursor: false,
-        speed: this.typeEffect.speed || 50,
-        startDelay: this.typeEffect.delay || 0,
-        loop: this.typeEffect.loop || false,
-        afterComplete: this.typeEffect.callback,
-      }).go();
+    startTimer() {
+      this.counter = setInterval(() => {
+        if (this.timer > 0) {
+          this.subElements.time.textContent = --this.timer;
+          console.log(`tick ${this.timer}`);
+        } else {
+          this.stopCounter();
+        }
+      }, 1000);
+    }
+
+    stopCounter() {
+      console.log('finish!');
+      this.subElements.time.textContent = '';
+      clearInterval(this.counter);
+      if (this.onEnd) this.onEnd();
     }
 
     show(target) {
       const parent = target || document.body;
+      if (this.timer > 0) this.startTimer();
       parent.append(this.element);
     }
 
     remove() {
       this.element.remove()
+      clearInterval(this.counter);
     }
 
     destroy() {

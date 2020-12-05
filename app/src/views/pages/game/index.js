@@ -1,4 +1,4 @@
-import HackScreen from "../../components/hack";
+import HackScreen from "../../components/games/hack";
 import TextBar from "../../components/elements/textbar";
 import { goRoot } from "../../../util/helpers";
 import { getData } from "../../../util/api.js";

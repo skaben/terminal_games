@@ -57,7 +57,6 @@ export default class Page {
           // todo: move change screen ops to timer callbacks!
           main = new Loading(this.data.timeout || 0, this.data.nextScreen),
           footer = new Timer({
-            name: "footer",
             timer: this.data.timeout,
             message: footerText,
           });

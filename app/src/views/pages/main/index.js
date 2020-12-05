@@ -1,16 +1,27 @@
 import Menu from "../../components/menu";
+import Image from '../../components/documents/image';
+
 import { getData } from "../../../util/api";
 import TypeWriter from "../../components/effects/typewriter";
 
 import "../../../assets/styles/style.scss";
-import { goRoot } from "../../../util/helpers";
+import { goRoot, changeUrl } from "../../../util/helpers";
 
+
+// TODO: how to pass data to image, text, video, etc ???
 
 const testData = [
   {
-    'game': 'fallout',
-    'href': '/hack',
-    'name': 'hack terminal',
+    'type': 'game',
+    'href': 'hack',
+    'menu': 'hack terminal now',
+    'timer': -1
+  },
+  {
+    'type': 'image',
+    'data': 'fallout.png',
+    'name': 'image_0001',
+    'menu': 'show image',
     'timer': -1
   }
 ]
@@ -22,17 +33,22 @@ export default class Page {
     element;
     subElements = {};
     components = {};
+    gameScenes = {};
+
+    supported = {
+      'image': Image,
+    }
 
     URL = new URL("/api/menu", HOSTURL);
 
     async initComponents() {
       const apiData = await getData(this.URL);
-      const data = apiData.length === 0
+      this.data = apiData.length === 0
                     ? testData
                     : apiData;
 
       try {
-        const menu = new Menu(data);
+        const menu = new Menu(this.data);
 
         const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
         // todo: solution via promises
@@ -43,6 +59,7 @@ export default class Page {
         });
 
         this.components.menu = menu;
+        this.components.main = menu;
         return this.components;
 
       } catch (err) {
@@ -51,10 +68,41 @@ export default class Page {
       }
     }
 
+    initEventListeners() {
+      this.element.addEventListener("pointerdown", event => {
+        event.preventDefault();
+        const target = event.target.closest('a');
+        const index = target.dataset.element;
+        const isGame = this.data[index]['type'] === 'game';
+
+        if (isGame) {
+          return changeUrl(target.href);
+        } else if (target.href && target.href === '/back') {
+          this.components.main = this.components.menu;
+        } else {
+          const gameScene = this.getGameScene(index);
+          this.components.main = gameScene || this.components.menu;
+        }
+
+        this.renderComponents();
+      });
+    }
+
+    getGameScene(index) {
+      const scene = this.gameScenes[index];
+      const inData = this.data[index];
+      if (scene) return scene;
+      if (!inData || inData['type'] === 'game') return;
+      // get component object type
+      const supported = this.supported[inData['type']];
+      // return component instance with data provided
+      return new supported(inData);
+    }
+
     get template () {
       return `
         <div class="page">
-          <div class="content__menu" data-element="menu"></div>
+          <div class="content__menu" data-element="main"></div>
         </div>
       `;
     }
@@ -69,15 +117,13 @@ export default class Page {
 
       await this.initComponents();
       this.renderComponents();
+      this.initEventListeners();
 
       return this.element;
     }
 
     renderComponents () {
-      Object.keys(this.components).forEach(component => {
-        const root = this.subElements[component];
-        this.components[component].show(root);
-      });
+      this.components['main'].show(this.subElements['main']);
     }
 
     getSubElements ($element) {

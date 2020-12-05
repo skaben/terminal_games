@@ -5,22 +5,20 @@ export default class Timer {
     subElements;
 
     constructor({
-      name,
       timer,
       message,
       onEnd
     } = props) {
       this.timer = timer || 0;
       this.message = message || '';
-      this.barName = name || 'timer';
       this.onEnd = onEnd;
       this.render();
     }
 
     get template() {
       return `
-        <div class="${this.barName}">
-          <div class="${this.barName}__main">
+        <div class="timer-bar">
+          <div class="timer-bar__main">
             <span data-element="main">${this.message}</span>
             <span data-element="time"></span>
           </div>

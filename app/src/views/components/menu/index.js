@@ -13,10 +13,10 @@ export default class Menu {
 
   get rows() {
     return this.items.map((item, index) => {
-      const {name, href} = item;
+      const {menu, href} = item;
       return `
         <div class="menu__item">
-          <a href="${href}" data-element="link${index}" tabindex="${index + 1}">${name}</a>
+          <a href="/${href || '#'}" data-element="${index}" tabindex="${index + 1}">${menu}</a>
         </div>
       `
     }).join('');
@@ -37,7 +37,6 @@ export default class Menu {
     this.subElements = this.getSubElements(this.element);
 
     const firstRow = this.subElements[Object.keys(this.subElements)[0]];
-    firstRow.addEventListener("onfocus", event => console.log(event));
     firstRow.focus();
 
     return this.element;

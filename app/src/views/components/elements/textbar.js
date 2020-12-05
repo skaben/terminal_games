@@ -1,10 +1,7 @@
-import TypeIt from "typeit";
-
-
 export default class TextBar {
 
-    constructor(name, 
-                message, 
+    constructor(name,
+                message,
                 navigation) {
       this.message = message || "!! terminal configuration failed, call system administator !!";
       this.barName = name;

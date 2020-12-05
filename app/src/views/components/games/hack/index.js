@@ -6,10 +6,10 @@ import {
   intersection,
   chunkArrayInGroups,
   objectFromArrays,
-} from "../../../util/helpers.js";
+} from "../../../../util/helpers.js";
 
 import "./style.scss";
-import socket from "../../../util/socket";
+import socket from "../../../../util/socket";
 
 export default class FallHackGame {
 

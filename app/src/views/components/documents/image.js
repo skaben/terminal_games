@@ -1,6 +1,6 @@
 import TextBar from '../elements/textbar';
 import Timer from '../elements/timer';
-
+//TODO: iamge not found
 export default class ImageDoc {
 
   components = {};
@@ -8,7 +8,7 @@ export default class ImageDoc {
 
   constructor({
     name,
-    image,
+    data,
     timer
   } = {}) {
 
@@ -18,7 +18,7 @@ export default class ImageDoc {
     }
 
     this.components['header'] = new TextBar("header", `image document ${name}` || '', this.nav);
-    this.image = image;
+    this.image = data;
     this.render();
   }
 
@@ -27,7 +27,7 @@ export default class ImageDoc {
       <div class="page">
         <div class="content__header" data-element="header"></div>
         <div class="content__main" data-element="main">
-          <img src="/asset/images/test.jpg"></img>
+          <img src="/asset/images/${this.image}"></img>
         </div>
         <div class="content__footer" data-element="footer"></div>
       </div>

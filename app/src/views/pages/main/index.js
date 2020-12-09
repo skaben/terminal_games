@@ -19,7 +19,7 @@ const testData = [
   },
   {
     'type': 'image',
-    'data': 'fallout.png',
+    'data': 'test.jpg',
     'name': 'image_0001',
     'menu': 'show image file',
     'timer': -1

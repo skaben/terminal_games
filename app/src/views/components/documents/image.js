@@ -3,8 +3,8 @@ import Timer from '../elements/timer';
 
 export default class ImageDoc {
 
-  components;
-  nav = {"back": "/"};
+  components = {};
+  nav = {"back": "/back"};
 
   constructor({
     name,
@@ -12,12 +12,12 @@ export default class ImageDoc {
     timer
   } = {}) {
 
-    if (timer) {
+    if (timer && timer > 0) {
       this.nav = {};
-      this.components.footer = new Timer({timer: timer, message: 'document blocked... '});
+      this.components['footer'] = new Timer({timer: timer, message: 'document blocked... '});
     }
 
-    this.components.header = new TextBar("header", `image document ${name}` || '', this.nav);
+    this.components['header'] = new TextBar("header", `image document ${name}` || '', this.nav);
     this.image = image;
     this.render();
   }
@@ -27,7 +27,7 @@ export default class ImageDoc {
       <div class="page">
         <div class="content__header" data-element="header"></div>
         <div class="content__main" data-element="main">
-          <img src="${this.image}"></img>
+          <img src="/asset/images/test.jpg"></img>
         </div>
         <div class="content__footer" data-element="footer"></div>
       </div>

@@ -21,7 +21,7 @@ const testData = [
     'type': 'image',
     'data': 'fallout.png',
     'name': 'image_0001',
-    'menu': 'show image',
+    'menu': 'show image file',
     'timer': -1
   }
 ]
@@ -49,14 +49,7 @@ export default class Page {
 
       try {
         const menu = new Menu(this.data);
-
-        const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
-        // todo: solution via promises
-        typewriters.forEach((item, index, array) => {
-          const prev = array[index - 1];
-          if (prev) item.delay = prev.overall + prev.delay;
-          item.print();
-        });
+        this.printMenu(menu);
 
         this.components.menu = menu;
         this.components.main = menu;
@@ -64,39 +57,63 @@ export default class Page {
 
       } catch (err) {
         console.error(err);
-        await goRoot(err);
+        //await goRoot(err);
       }
+    }
+
+    renderComponents = () => {
+      this.subElements['main'].innerHTML = '';
+      this.components['main'].show(this.subElements['main']);
     }
 
     initEventListeners() {
       this.element.addEventListener("pointerdown", event => {
         event.preventDefault();
         const target = event.target.closest('a');
-        const index = target.dataset.element;
-        const isGame = this.data[index]['type'] === 'game';
 
-        if (isGame) {
-          return changeUrl(target.href);
-        } else if (target.href && target.href === '/back') {
+        if (target.href && target.href.split('/')[-1] === 'back') {
+          // intercept /back from child component, render menu
           this.components.main = this.components.menu;
         } else {
-          const gameScene = this.getGameScene(index);
-          this.components.main = gameScene || this.components.menu;
-        }
+          const index = target.dataset.element;
 
+          if (this.data[index] && this.data[index]['type'] === 'game') {
+            // menu item points to external game - just change URL
+            return changeUrl(target.href);
+          } else {
+            // menu item points to supported document - render child component for it
+            const gameScene = this.getGameScene(index);
+            this.components.main = gameScene || this.components.menu;
+          }
+        }
         this.renderComponents();
       });
     }
 
+    printMenu(menu) {
+      const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
+      // todo: solution via promises
+      typewriters.forEach((item, index, array) => {
+        const prev = array[index - 1];
+        if (prev) item.delay = prev.overall + prev.delay;
+        item.print();
+      });
+    }
+
     getGameScene(index) {
-      const scene = this.gameScenes[index];
-      const inData = this.data[index];
-      if (scene) return scene;
-      if (!inData || inData['type'] === 'game') return;
-      // get component object type
-      const supported = this.supported[inData['type']];
-      // return component instance with data provided
-      return new supported(inData);
+      let scene = this.gameScenes[index];
+      const data = this.data[index];
+      if (!data || data['type'] === 'game') return;
+      if (!scene) {
+        // get component object type
+        try {
+          const supported = this.supported[data['type']];
+          scene = new supported(data);
+        } catch (err) {
+          console.error(`[!] when rendering ${data['type']} ${err}`);
+        }
+      };
+      return scene;
     }
 
     get template () {
@@ -122,9 +139,6 @@ export default class Page {
       return this.element;
     }
 
-    renderComponents () {
-      this.components['main'].show(this.subElements['main']);
-    }
 
     getSubElements ($element) {
       const elements = $element.querySelectorAll('[data-element]');

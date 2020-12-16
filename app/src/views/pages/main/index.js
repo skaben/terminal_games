@@ -70,6 +70,7 @@ export default class Page {
 
       try {
         //const menu = new Menu(this.data);
+        console.warn(this.data);
         const menu = getMenu(this.data);
         console.log(menu);
         this.printMenu(menu);

@@ -1,32 +1,35 @@
-class viewMixin {
+const viewMixin = {
 
-  element;
-  subElements = {};
+  element: null,
+  subElements: {},
 
-  show = (target) => {
+  show(target) {
     const parent = target || document.body;
     parent.append(this.element);
-  }
+  },
 
-  getSubElements = (element) => {
+  getSubElements(element) {
     const elements = element.querySelectorAll('[data-element]');
 
-    return [...elements].reduce((accum, subElement) => {
+    this.subElements = [...elements].reduce((accum, subElement) => {
       accum[subElement.dataset.element] = subElement;
 
       return accum;
     }, {});
-  }
+    return this.subElements;
+  },
 
-  render = () => {
+  render() {
     const element = document.createElement('div');
     element.innerHTML = this.template(this);
     this.element = element.firstElementChild;
-    this.subElements = this.getSubElements(this) || {};
-  }
+    this.subElements = this.getSubElements(element);
+    return this.element;
+  },
 
-  remove = () => {
+  remove() {
     this.element.remove()
   }
 }
 
+export default viewMixin;

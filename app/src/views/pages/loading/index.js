@@ -26,7 +26,7 @@ export default class Page {
   URL = new URL("/api/main", HOSTURL);
 
   async initComponents() {
-    const apiData = await getData(this.URL);
+    const apiData = await getData(this.URL) || {};
     this.data = Object.keys(apiData).length === 0
                   ? testData
                   : apiData;

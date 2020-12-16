@@ -1,12 +1,14 @@
 import "./style.scss";
-import view from "../../../util/mixins";
+import viewMixin from "../../../views";
 
-const menuObject = {
+class menuObject {
 
-  items: [],
+  constructor(items) {
+    this.items = items;
+  }
 
-  rows: self => {
-    return self.items.map((item, index) => {
+  rows() {
+    return this.items.map((item, index) => {
       const {menu, href} = item;
       const link = href ? `/${href}` : 'javascript:;';
       return `
@@ -15,33 +17,28 @@ const menuObject = {
         </div>
       `
     }).join('');
-  },
+  }
 
-  template: self => {
+  template() {
     return `
       <div class="menu">
-        ${self.rows(self)}
+        ${this.rows()}
       </div>
     `;
-  },
+  }
 
-  focusRow: self => {
-    // sooo, here we are, in need of hooks...
-    const firstRow = self.subElements[Object.keys(self.subElements)[0]];
+  focusRow() {
+    const firstRow = this.subElements[Object.keys(this.subElements)[0]];
     firstRow.focus();
   }
 }
 
 
 const getMenu = (items) => {
-  const menu = {
-    ...view,
-    ...menuObject
-  };
-
-  menu.items = items;
-  menu.render(menu);
-  menu.focusRow(menu);
+  const menu = new menuObject(items);
+  Object.assign(menu, viewMixin);
+  menu.render();
+  menu.focusRow();
   return menu;
 }
 

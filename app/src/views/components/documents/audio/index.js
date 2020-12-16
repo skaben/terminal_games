@@ -1,5 +1,7 @@
-import TextBar from '../elements/textbar';
-import Timer from '../elements/timer';
+import './style.scss';
+
+import TextBar from '../../elements/textbar';
+import Timer from '../../elements/timer';
 //TODO: iamge not found
 export default class ImageDoc {
 
@@ -18,16 +20,18 @@ export default class ImageDoc {
     }
 
     this.components['header'] = new TextBar("header", `image document ${name}` || '', this.nav);
-    this.image = data;
+    this.data = data;
     this.render();
   }
 
   get template() {
     return `
-      <div class="page">
+      <div class="audio-page">
         <div class="content__header" data-element="header"></div>
         <div class="content__main" data-element="main">
-          <img src="/asset/images/${this.image}"></img>
+          <div class="audio-wrapper">
+          <audio controls><source src="horse.ogg" type="audio/ogg"></audio>
+          </div>
         </div>
         <div class="content__footer" data-element="footer"></div>
       </div>

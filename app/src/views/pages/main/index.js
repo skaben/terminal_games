@@ -1,4 +1,4 @@
-import Menu from "../../components/menu";
+import getMenu from "../../components/menu";
 import Image from '../../components/documents/image';
 
 import { getData } from "../../../util/api";
@@ -23,6 +23,27 @@ const testData = [
     'name': 'image_0001',
     'menu': 'show image file',
     'timer': -1
+  },
+  {
+    'type': 'image',
+    'data': 'test.jpg',
+    'name': 'image_0001',
+    'menu': 'timer show image file',
+    'timer': 5
+  },
+  {
+    'type': 'image',
+    'data': 'height.jpg',
+    'name': 'image_0001',
+    'menu': 'height image',
+    'timer': -1
+  },
+  {
+    'type': 'image',
+    'data': 'width.jpg',
+    'name': 'image_0001',
+    'menu': 'width image',
+    'timer': -1
   }
 ]
 
@@ -42,13 +63,15 @@ export default class Page {
     URL = new URL("/api/menu", HOSTURL);
 
     async initComponents() {
-      const apiData = await getData(this.URL);
+      const apiData = await getData(this.URL) || [];
       this.data = apiData.length === 0
                     ? testData
                     : apiData;
 
       try {
-        const menu = new Menu(this.data);
+        //const menu = new Menu(this.data);
+        const menu = getMenu(this.data);
+        console.log(menu);
         this.printMenu(menu);
 
         this.components.menu = menu;
@@ -91,6 +114,7 @@ export default class Page {
     }
 
     printMenu(menu) {
+      console.log(menu.subElements);
       const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
       // todo: solution via promises
       typewriters.forEach((item, index, array) => {

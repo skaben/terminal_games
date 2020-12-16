@@ -1,18 +1,12 @@
 import "./style.scss";
+import view from "../../../util/mixins";
 
-export default class Menu {
+const menuObject = {
 
-  subElements = {};
-  items = [];
+  items: [],
 
-  constructor(menuItems) {
-    console.log(menuItems);
-    this.items = menuItems;
-    this.render();
-  }
-
-  get rows() {
-    return this.items.map((item, index) => {
+  rows: self => {
+    return self.items.map((item, index) => {
       const {menu, href} = item;
       const link = href ? `/${href}` : 'javascript:;';
       return `
@@ -21,47 +15,34 @@ export default class Menu {
         </div>
       `
     }).join('');
-  }
+  },
 
-  get template() {
+  template: self => {
     return `
       <div class="menu">
-        ${this.rows}
+        ${self.rows(self)}
       </div>
-    `
-  }
+    `;
+  },
 
-  render() {
-    const element = document.createElement('div');
-    element.innerHTML = this.template;
-    this.element = element.firstElementChild;
-    this.subElements = this.getSubElements(this.element);
-
-    const firstRow = this.subElements[Object.keys(this.subElements)[0]];
+  focusRow: self => {
+    // sooo, here we are, in need of hooks...
+    const firstRow = self.subElements[Object.keys(self.subElements)[0]];
     firstRow.focus();
-
-    return this.element;
-  }
-
-  show(target) {
-    const parent = target || document.body;
-    parent.append(this.element);
-  }
-
-  remove() {
-    this.element.remove()
-  }
-
-  destroy() {
-    this.remove();
-  }
-
-  getSubElements(element) {
-    const elements = element.querySelectorAll('[data-element]');
-
-    return [...elements].reduce((accum, subElement) => {
-      accum[subElement.dataset.element] = subElement;
-      return accum;
-    }, {});
   }
 }
+
+
+const getMenu = (items) => {
+  const menu = {
+    ...view,
+    ...menuObject
+  };
+
+  menu.items = items;
+  menu.render(menu);
+  menu.focusRow(menu);
+  return menu;
+}
+
+export default getMenu;

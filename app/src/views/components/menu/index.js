@@ -1,5 +1,5 @@
 import "./style.scss";
-import viewMixin from "../../../views";
+import { viewMixin, canRender } from "../../../mixins/view";
 
 class menuObject {
 
@@ -36,7 +36,11 @@ class menuObject {
 
 const getMenu = (items) => {
   const menu = new menuObject(items);
-  Object.assign(menu, viewMixin);
+  Object.assign(
+    menu,
+    viewMixin,
+    canRender
+  );
   menu.render();
   menu.focusRow();
   return menu;

@@ -1,5 +1,7 @@
 import getMenu from "../../components/menu";
 import Image from '../../components/documents/image';
+import { viewMixin } from '../../../mixins/view';
+import { pageMixin, canRenderAsyncWithComponents } from "../../../mixins/page"
 
 import { getData } from "../../../util/api";
 import TypeWriter from "../../components/effects/typewriter";
@@ -47,12 +49,10 @@ const testData = [
   }
 ]
 
-export default class Page {
+class Page {
 
     // should generate all sub-pages for menu-items too
 
-    element;
-    subElements = {};
     components = {};
     gameScenes = {};
 
@@ -70,9 +70,7 @@ export default class Page {
 
       try {
         //const menu = new Menu(this.data);
-        console.warn(this.data);
         const menu = getMenu(this.data);
-        console.log(menu);
         this.printMenu(menu);
 
         this.components.menu = menu;
@@ -83,11 +81,6 @@ export default class Page {
         console.error(err);
         //await goRoot(err);
       }
-    }
-
-    renderComponents = () => {
-      this.subElements['main'].innerHTML = '';
-      this.components['main'].show(this.subElements['main']);
     }
 
     initEventListeners() {
@@ -110,12 +103,12 @@ export default class Page {
             this.components.main = gameScene || this.components.menu;
           }
         }
+        this.subElements['main'].innerHTML = '';
         this.renderComponents();
       });
     }
 
     printMenu(menu) {
-      console.log(menu.subElements);
       const typewriters = Object.values(menu.subElements).map(item => new TypeWriter(item, {speed: 15}));
       // todo: solution via promises
       typewriters.forEach((item, index, array) => {
@@ -133,6 +126,7 @@ export default class Page {
         // get component object type
         try {
           const supported = this.supported[data['type']];
+          console.log(supported);
           scene = new supported(data);
         } catch (err) {
           console.error(`[!] when rendering ${data['type']} ${err}`);
@@ -141,7 +135,7 @@ export default class Page {
       return scene;
     }
 
-    get template () {
+    template() {
       return `
         <div class="page">
           <div class="content__menu" data-element="main"></div>
@@ -149,41 +143,19 @@ export default class Page {
       `;
     }
 
-    async render () {
-      const element = document.createElement('div');
+}
 
-      element.innerHTML = this.template;
+const getMenuPage = () => {
+  const page = new Page();
 
-      this.element = element.firstElementChild;
-      this.subElements = this.getSubElements(this.element);
+  Object.assign(
+    page,
+    viewMixin,
+    pageMixin,
+    canRenderAsyncWithComponents
+  );
 
-      await this.initComponents();
-      this.renderComponents();
-      this.initEventListeners();
+  return page;
+}
 
-      return this.element;
-    }
-
-
-    getSubElements ($element) {
-      const elements = $element.querySelectorAll('[data-element]');
-
-      return [...elements].reduce((accum, subElement) => {
-        accum[subElement.dataset.element] = subElement;
-
-        return accum;
-      }, {});
-    }
-
-    remove () {
-      this.element.remove();
-    }
-
-    destroy () {
-      this.remove();
-
-      for (const component of Object.values(this.components)) {
-        component.destroy();
-      }
-    }
-  }
+export default getMenuPage;

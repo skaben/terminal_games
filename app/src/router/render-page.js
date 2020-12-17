@@ -23,15 +23,17 @@ export default async function(path, match) {
 //  const page = new Page(match);
   const contentNode = document.querySelector(".screen__content");
   contentNode.innerHTML = loadingTemplate;
-
-  const Page = pages[path] || pages["load"];
-  const page = new Page();
-  await page.render();
-
-  setTimeout( () => {
-    //changeSound.play();
-    contentNode.innerHTML = '';
-    contentNode.append(page.element);
-    return page;
-  }, renderDelay);
+  try {
+    const makePage = pages[path] || pages["load"];
+    const page = makePage();
+    await page.render();
+    setTimeout( () => {
+      //changeSound.play();
+      contentNode.innerHTML = '';
+      contentNode.append(page.element);
+      return page;
+    }, renderDelay);
+  } catch (err) {
+    console.error(`ERROR while rendering page: ${err}`);
+  }
 }

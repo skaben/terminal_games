@@ -8,10 +8,17 @@ import {
   objectFromArrays,
 } from "../../../../util/helpers.js";
 
-import "./style.scss";
+import {
+  viewMixin,
+  canRender
+} from '../../../../mixins/view';
+
 import socket from "../../../../util/socket";
 
-export default class FallHackGame {
+import "./style.scss";
+
+
+class HackGame {
 
   textScreenCount = 2;
   textScreenRowCount = 16;
@@ -33,7 +40,7 @@ export default class FallHackGame {
       password,
       timeout,
       chance
-    }) {
+    } = props) {
 
     this.password = password;
     this.words = words.concat(password);
@@ -55,9 +62,6 @@ export default class FallHackGame {
 
     this.textField = this.getTextField();
     this.content = this.getContent();
-
-    this.render();
-    this.initEventListeners();
   }
 
   initEventListeners() {
@@ -321,7 +325,7 @@ export default class FallHackGame {
     `
   }
 
-  get template() {
+  template() {
     return `
     <div class="interface">
       <div class="interface_header" data-element="header">
@@ -343,35 +347,18 @@ export default class FallHackGame {
     `
   }
 
-  render() {
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = this.template;
-    this.element = wrapper.firstElementChild;
-    this.subElements = this.getSubElements(this.element);
-    this.initEventListeners();
-    return this.element;
-  }
-
-  getSubElements(element) {
-    const elements = element.querySelectorAll('[data-element]');
-
-    return [...elements].reduce((accum, subElement) => {
-      accum[subElement.dataset.element] = subElement;
-      return accum;
-    }, {});
-  }
-
-  show(target) {
-    const parent = target || document.body;
-    parent.append(this.element);
-  }
-
-  destroy() {
-    this.remove();
-  }
-
-  remove() {
-    this.element.remove();
-  }
-
 }
+
+
+const getHackGame = (props) => {
+  const game = new HackGame(props);
+  Object.assign(
+    game,
+    viewMixin,
+    canRender
+  )
+  game.render();
+  return game;
+}
+
+export default getHackGame;

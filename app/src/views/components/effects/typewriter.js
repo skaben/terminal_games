@@ -21,7 +21,6 @@ export default class TypeWriter {
     this.target = target;
     this.content = this.initialize(text || this.target.textContent);
     this.totalTime = this.delay + this.overall;
-    this.initEventListeners();
   }
 
   initialize(textData) {
@@ -30,10 +29,10 @@ export default class TypeWriter {
 
     return this.output.reduce((accum, item, index) => {
       let speed = this.speed;
-      
+
       if (this.punctuation.includes(item)) speed = this.speed / 2;
       if (item === " ") speed = 0;
-      
+
       this.overall += speed;
       accum[index] = [item, this.overall];
       return accum;
@@ -64,15 +63,6 @@ export default class TypeWriter {
     }
 
     await new Promise(() => setTimeout(finalize, this.overall));
-  }
-
-
-  remove() {
-    this.element.remove()
-  }
-
-  destroy() {
-    this.remove();
   }
 
 }

@@ -1,4 +1,6 @@
-export default class Timer {
+import { viewMixin, canRender } from '../../../mixins/view';
+
+class Timer {
 
     counter;
     element;
@@ -12,10 +14,9 @@ export default class Timer {
       this.timer = timer || 0;
       this.message = message || '';
       this.onEnd = onEnd;
-      this.render();
     }
 
-    get template() {
+    template() {
       return `
         <div class="timer-bar">
           <div class="timer-bar__main">
@@ -24,23 +25,6 @@ export default class Timer {
           </div>
         </div>
       `
-    }
-
-    render() {
-      const element = document.createElement('div');
-      element.innerHTML = this.template;
-      this.subElements = this.getSubElements(element);
-      this.element = element.firstElementChild;
-      return this.element;
-    }
-
-    get nav() {
-      if (!this.timer) return '';
-
-      return Object.entries(this.navigation).map(entry => {
-        const [text, link] = [...entry];
-        return `<a href="${link}">${text}</a>`
-      }).join('');
     }
 
     startTimer() {
@@ -61,29 +45,18 @@ export default class Timer {
       if (this.onEnd) this.onEnd();
     }
 
-    show(target) {
-      const parent = target || document.body;
-      if (this.timer > 0) this.startTimer();
-      parent.append(this.element);
-    }
-
-    remove() {
-      this.element.remove()
-      clearInterval(this.counter);
-    }
-
-    destroy() {
-      this.remove();
-    }
-
-    getSubElements(element) {
-      const elements = element.querySelectorAll('[data-element]');
-
-      return [...elements].reduce((accum, subElement) => {
-        accum[subElement.dataset.element] = subElement;
-
-        return accum;
-      }, {});
-    }
-
 }
+
+
+const getTimer = (props) => {
+  const timer = new Timer(props);
+  Object.assign(
+    timer,
+    viewMixin,
+    canRender
+  )
+  timer.render();
+  return timer;
+}
+
+export default getTimer;

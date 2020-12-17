@@ -1,14 +1,12 @@
+import { viewMixin, canRender } from "../../../mixins/view";
 import { dispatchEvent, changeUrl } from "../../../util/helpers";
 
 import "./style.scss";
 
-export default class Loading {
+class Loading {
 
-    constructor(timeout, nextScreen) {
+    constructor(timeout) {
       this.timeout = timeout;
-      this.nextScreen = nextScreen;
-      this.render();
-      this.initEventListeners();
     }
 
     initEventListeners() {
@@ -21,7 +19,7 @@ export default class Loading {
       }
     }
 
-    get template() {
+    template() {
       return `
         <div class="loading">
           <svg
@@ -47,28 +45,18 @@ export default class Loading {
       `
     }
 
-    render() {
-      const element = document.createElement('div');
-      element.innerHTML = this.template;
-      this.element = element.firstElementChild;
-      this.animated = this.element.querySelector(".loading__svg");
-      this.moving = this.element.querySelector(".moving-path");
-      return this.element;
-    }
-
-    show(target) {
-      const parent = target || document.body;
-      if (this.timeout) {
-        setTimeout(() => dispatchEvent(this.element, "loadingEnd"), this.timeout);
-      }
-      parent.append(this.element);
-    }
-
-    remove() {
-      this.element.remove()
-    }
-
-    destroy() {
-      this.remove();
-    }
 }
+
+
+const getLoading = (timeout) => {
+  const loading = new Loading(timeout);
+  Object.assign(
+    loading,
+    viewMixin,
+    canRender
+  )
+  loading.render();
+  return loading;
+}
+
+export default getLoading;

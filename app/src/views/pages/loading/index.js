@@ -1,8 +1,11 @@
 import Loading from "../../components/system";
 import PowerOff from "../../components/poweroff";
-import TextBar from "../../components/elements/textbar";
+import textBar from "../../components/elements/textbar";
 import Timer from "../../components/elements/timer";
 import TypeWriter from "../../components/effects/typewriter";
+import { viewMixin } from '../../../mixins/view';
+import { pageMixin, canRenderAsyncWithComponents } from '../../../mixins/page';
+
 
 import "./style.scss";
 
@@ -16,11 +19,9 @@ const testData = {
   'timeout': 120
 }
 
-export default class Page {
+class Page {
 
   data;
-  element;
-  subElements = {};
   components = {};
 
   URL = new URL("/api/main", HOSTURL);
@@ -53,19 +54,19 @@ export default class Page {
     const headerText = this.data.header || '[terminal blocked]';
     const footerText = this.data.footer || '[terminal blocked]'
 
-    const header = new TextBar("header", headerText),
+    const header = textBar({message: headerText}),
           // todo: move change screen ops to timer callbacks!
-          main = new Loading(this.data.timeout || 0, this.data.nextScreen),
-          footer = new Timer({
+          main = Loading(this.data.timeout || 0, this.data.nextScreen),
+          footer = Timer({
             timer: this.data.timeout,
             message: footerText,
           });
 
-    const headerTyping = new TypeWriter(header.subElements.main);
+    const headerTyping = TypeWriter(header.subElements.main);
 
-    const footerTyping = new TypeWriter(footer.subElements.main, {
-                                          delay: headerTyping.totalTime,
-                                        });
+    const footerTyping = TypeWriter(footer.subElements.main, {
+                                    delay: headerTyping.totalTime,
+                                    });
 
     headerTyping.print();
     footerTyping.print();
@@ -79,7 +80,7 @@ export default class Page {
     return this.components;
   }
 
-  get template() {
+  template() {
     return `
       <div class="page">
         <div class="content__header" data-element="header"></div>
@@ -89,46 +90,19 @@ export default class Page {
     `;
   }
 
-  async render() {
-    const element = document.createElement('div');
-
-    element.innerHTML = this.template;
-
-    this.element = element.firstElementChild;
-    this.subElements = this.getSubElements(this.element);
-
-    await this.initComponents();
-    this.renderComponents();
-
-    return this.element;
-  }
-
-  renderComponents() {
-    Object.keys(this.components).forEach(component => {
-      const root = this.subElements[component];
-      this.components[component].show(root);
-    });
-  }
-
-  getSubElements($element) {
-    const elements = $element.querySelectorAll('[data-element]');
-
-    return [...elements].reduce((accum, subElement) => {
-      accum[subElement.dataset.element] = subElement;
-
-      return accum;
-    }, {});
-  }
-
-  remove() {
-    this.element.remove();
-  }
-
-  destroy() {
-    this.remove();
-
-    for (const component of Object.values(this.components)) {
-      component.destroy();
-    }
-  }
 }
+
+
+const getLoadingPage = () => {
+  const page = new Page();
+
+  Object.assign(
+    page,
+    viewMixin,
+    pageMixin,
+    canRenderAsyncWithComponents
+  );
+  return page;
+}
+
+export default getLoadingPage;

@@ -1,6 +1,5 @@
 import { dispatchEvent } from "../util/helpers";
 
-export const HOSTURL = "http://localhost:5000";
 const APIURL = new URL("/api/event", HOSTURL);
 
 
@@ -26,8 +25,8 @@ export async function postData(data) {
 
 
 export async function getData(url) {
-  const response = await fetch(url);
   try {
+    const response = await fetch(url);
     if (!response.ok) { throw response.status };
     const data = await response.json();
     return data;

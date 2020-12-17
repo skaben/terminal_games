@@ -1,67 +1,49 @@
 import "./style.scss";
+import { viewMixin, canRender } from "../../../mixins/view";
 
-export default class Menu {
+class menuObject {
 
-  subElements = {};
-  items = [];
-
-  constructor(menuItems) {
-    console.log(menuItems);
-    this.items = menuItems;
-    this.render();
+  constructor(items) {
+    this.items = items;
   }
 
-  get rows() {
+  rows() {
     return this.items.map((item, index) => {
-      const {name, href} = item;
+      const {menu, href} = item;
+      const link = href ? `/${href}` : 'javascript:;';
       return `
         <div class="menu__item">
-          <a href="${href}" data-element="link${index}" tabindex="${index + 1}">${name}</a>
+          <a href="${link}" data-element="${index}" tabindex="${index + 1}">${menu}</a>
         </div>
       `
     }).join('');
   }
 
-  get template() {
+  template() {
     return `
       <div class="menu">
-        ${this.rows}
+        ${this.rows()}
       </div>
-    `
+    `;
   }
 
-  render() {
-    const element = document.createElement('div');
-    element.innerHTML = this.template;
-    this.element = element.firstElementChild;
-    this.subElements = this.getSubElements(this.element);
-
+  focusRow() {
     const firstRow = this.subElements[Object.keys(this.subElements)[0]];
-    firstRow.addEventListener("onfocus", event => console.log(event));
     firstRow.focus();
-
-    return this.element;
-  }
-
-  show(target) {
-    const parent = target || document.body;
-    parent.append(this.element);
-  }
-
-  remove() {
-    this.element.remove()
-  }
-
-  destroy() {
-    this.remove();
-  }
-
-  getSubElements(element) {
-    const elements = element.querySelectorAll('[data-element]');
-
-    return [...elements].reduce((accum, subElement) => {
-      accum[subElement.dataset.element] = subElement;
-      return accum;
-    }, {});
   }
 }
+
+
+const getMenu = (items) => {
+  const menu = new menuObject(items);
+  Object.assign(
+    menu,
+    viewMixin,
+    canRender
+  );
+  menu.render();
+  menu.focusRow();
+  return menu;
+}
+
+export default getMenu;

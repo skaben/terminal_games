@@ -145,19 +145,19 @@ a::before {
 
 
 @keyframes fadeInSkew {
-  0% { 
+  0% {
     opacity: 0;
     transform: skewX(-45deg);
     transform: skewY(-45deg);
   }
 
-  30% { 
-    transform: skewX(160deg); 
+  30% {
+    transform: skewX(160deg);
     transform: skewY(160deg);
   }
 
-  100% { 
-    opacity: 1; 
+  100% {
+    opacity: 1;
     transform: skewX(0deg);
     transform: skewY(0deg);
   }

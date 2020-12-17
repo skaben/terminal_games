@@ -3,9 +3,9 @@ import Router from './index.js';
 const router = Router.instance();
 
 router
-  .addRoute(/^$/, 'main')
-  .addRoute(/^menu$/, 'menu')
-  .addRoute(/^hack$/, 'hack')
-  .addRoute(/^404\/?$/, 'main')
-  .setNotFoundPagePath('main')
+  .addRoute(/^$/, 'load')
+  .addRoute(/^menu$/, 'main')
+  .addRoute(/^hack$/, 'game')
+  .addRoute(/^404\/?$/, 'load')
+  .setNotFoundPagePath('load')
   .listen();

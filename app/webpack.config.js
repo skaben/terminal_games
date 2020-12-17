@@ -1,16 +1,17 @@
+const webpack = require('webpack');
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const AutomaticPrefetchPlugin = require('prefetch-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CssUrlRelativePlugin = require('css-url-relative-plugin');
 
 const path = require('path');
 
 
-module.exports = (_, { mode }) => ({
+module.exports = () => ({
   entry: '/app/src/index.js',
+  devtool: 'source-map',
 
-  // not working at all
   resolve: {
     alias: {
       fonts: path.resolve(__dirname, "src/assets/fonts"),
@@ -41,7 +42,7 @@ module.exports = (_, { mode }) => ({
           plugins: [
             "@babel/plugin-syntax-dynamic-import",
             "@babel/plugin-proposal-class-properties",
-            "@babel/plugin-transform-runtime"
+            "@babel/plugin-transform-runtime",
           ],
         },
       },
@@ -86,6 +87,9 @@ module.exports = (_, { mode }) => ({
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      HOSTURL: JSON.stringify("http://localhost:5000"),
+    }),
     new CssUrlRelativePlugin(),
     new HtmlWebpackPlugin({
       title: 'Terminal Konsole',
@@ -98,7 +102,7 @@ module.exports = (_, { mode }) => ({
     //new AutomaticPrefetchPlugin(),
     new CleanWebpackPlugin(),
   ],
-  
+
   devServer: {
     contentBase: path.join(__dirname, 'src'),
     compress: true,

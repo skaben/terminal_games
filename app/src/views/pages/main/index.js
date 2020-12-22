@@ -126,8 +126,7 @@ class Page {
         // get component object type
         try {
           const supported = this.supported[data['type']];
-          console.log(supported);
-          scene = new supported(data);
+          scene = supported(data);
         } catch (err) {
           console.error(`[!] when rendering ${data['type']} ${err}`);
         }

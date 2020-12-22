@@ -11,7 +11,8 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      working-directory: ./app
+      work-dir: ./app
+      dist-dir: ./dist
 
     strategy:
       matrix:
@@ -25,14 +26,15 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: npm install
-      working-directory: ${{ env.working-directory }}
+      working-directory: ${{ env.work-dir }}
 
     - name: build static
+      run: mkdir -p ${{ env.dist-dir }}
       run: npm run build --if-present
-      working-directory: ${{ env.working-directory }}
+      working-directory: ${{ env.work-dir }}
 
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
         name: dist
-        path: ./dist
+        path: ${{ env.dist-dir }}

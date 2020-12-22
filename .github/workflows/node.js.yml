@@ -10,6 +10,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./app
 
     strategy:
       matrix:
@@ -21,7 +23,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run build --if-present
+      working-directory: ${{ env.working-directory }}
+      run: npm run build --if-present
 
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2

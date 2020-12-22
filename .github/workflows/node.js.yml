@@ -43,7 +43,7 @@ jobs:
     - name: Add ${{ env.dist-dir }}
       run: |
         git config advice.addIgnoredFile false
-        git add ${{ env.dist-dir }}/
+        git add -f ${{ env.dist-dir }}/
       working-directory: ${{ env.work-dir }}
 
     - name: Commit files

@@ -30,7 +30,7 @@ jobs:
     - run: npm run build-prod
       working-directory: ${{ env.work-dir }}
 
-    # - run: ls -la ${{ env.work-dir }}
+    - run: ls -la ${{ env.dist-dir }}
     # - name: Archive production artifacts
     #   uses: actions/upload-artifact@v2
     #   with:

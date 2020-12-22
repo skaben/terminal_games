@@ -1,0 +1,57 @@
+name: Skaben Konsole Static Builder
+
+on:
+  push:
+    branches: [ main, test_actions ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      work-dir: ./app
+      dist-dir: /home/runner/work/device_konsole_front/device_konsole_front/app/dist
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+      working-directory: ${{ env.work-dir }}
+
+    - run: npm run build-prod
+      working-directory: ${{ env.work-dir }}
+
+    - name: package dist
+      run: tar -cvzf dist.tar.gz ${{ env.dist-dir }}
+
+    - name: Archive production
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist
+        path: dist.tar.gz
+
+    - name: Add dist archive to repo
+      run: git add dist.tar.gz
+
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Add latest build files" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: build

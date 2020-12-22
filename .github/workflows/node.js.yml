@@ -27,9 +27,9 @@ jobs:
 
     - run: npm install
       working-directory: ${{ env.work-dir }}
+    - run: mkdir -p ${{ env.dist-dir }}
 
     - name: build static
-      run: mkdir -p ${{ env.dist-dir }}
       run: npm run build --if-present
       working-directory: ${{ env.work-dir }}
 

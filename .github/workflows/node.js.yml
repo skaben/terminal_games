@@ -43,7 +43,7 @@ jobs:
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
     - name: Add ${{ env.dist-dir }}
-      run: git add ${{ env.dist-dir }}
+      run: git add ${{ env.dist-dir }}/
       working-directory: ${{ env.work-dir }}
 
     - name: Commit files

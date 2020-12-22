@@ -10,7 +10,6 @@ const path = require('path');
 
 module.exports = () => ({
   entry: './src/index.js',
-  devtool: 'source-map',
 
   resolve: {
     alias: {
@@ -103,10 +102,4 @@ module.exports = () => ({
     new CleanWebpackPlugin(),
   ],
 
-  devServer: {
-    contentBase: path.join(__dirname, 'src'),
-    compress: true,
-    historyApiFallback: true,
-    port: 9000
-  }
 });

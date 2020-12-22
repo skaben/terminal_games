@@ -34,7 +34,8 @@ jobs:
       working-directory: ${{ env.work-dir }}
 
     - name: Archive production artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: dist
-        path: ${{ env.dist-dir }}
+      # uses: actions/upload-artifact@v2
+      run: ls -la
+      # with:
+      #   name: dist
+      #   path: ${{ env.dist-dir }}

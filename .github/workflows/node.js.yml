@@ -33,17 +33,14 @@ jobs:
     - run: npm run build-prod
       working-directory: ${{ env.work-dir }}
 
-    - run: ls -la ${{ env.dist-dir }}
-    # - name: Archive production artifacts
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: dist
-    #     path: ${{ env.work-dir }}
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist
+        path: ${{ env.work-dir }}
 
     - name: Add ${{ env.dist-dir }}
-      run: |
-        git config advice.addIgnoredFile false
-        git add -f ${{ env.dist-dir }}/
+      run: git add dist.zip
       working-directory: ${{ env.work-dir }}
 
     - name: Commit files

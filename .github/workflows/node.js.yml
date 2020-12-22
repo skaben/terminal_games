@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       work-dir: ./app
-      dist-dir: ./dist
+      dist-dir: /home/runner/work/device_konsole_front/device_konsole_front/app/dist
 
     strategy:
       matrix:
@@ -30,12 +30,12 @@ jobs:
     - run: npm run build-prod
       working-directory: ${{ env.work-dir }}
 
-    # - run: ls -la /home/runner/work/device_konsole_front/device_konsole_front/app/dist
+    # - run: ls -la ${{ env.work-dir }}
     # - name: Archive production artifacts
     #   uses: actions/upload-artifact@v2
     #   with:
     #     name: dist
-    #     path: /home/runner/work/device_konsole_front/device_konsole_front/app/dist
+    #     path: ${{ env.work-dir }}
 
     - uses: actions/checkout@v2
       with:

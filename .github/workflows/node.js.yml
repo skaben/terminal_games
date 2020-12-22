@@ -33,14 +33,22 @@ jobs:
     - run: npm run build-prod
       working-directory: ${{ env.work-dir }}
 
-    - name: Archive production artifacts
+    - name: package dist
+      run: tar -cvzf dist.tar.gz ${{ env.dist-dir }}
+
+    - name: Archive production
       uses: actions/upload-artifact@v2
       with:
         name: dist
-        path: ${{ env.work-dir }}
+        path: dist.tar.gz
 
-    - name: Add ${{ env.dist-dir }}
-      run: git add dist.zip
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: dist
+
+    - name: Add dist archive to repo
+      run: git add dist.tar.gz
       working-directory: ${{ env.work-dir }}
 
     - name: Commit files

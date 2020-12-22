@@ -42,15 +42,8 @@ jobs:
         name: dist
         path: dist.tar.gz
 
-    - name: Download artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: dist
-        path: dist.tar.gz
-
     - name: Add dist archive to repo
       run: git add dist.tar.gz
-      working-directory: ${{ env.work-dir }}
 
     - name: Commit files
       run: |

@@ -333,9 +333,9 @@ class HackGame {
         <p data-element="status"></p>
       </div>
       <div class="interface_content">
-        <div class="content">${this.content.left}</div>
-        <div class="content">${this.content.right}</div>
-        <div class="content content_service">
+        <div class="hack-content">${this.content.left}</div>
+        <div class="hack-content">${this.content.right}</div>
+        <div class="hack-content content_service">
           <div class="content_service__log" data-element="log"></div>
           <div class="content_service__cli">
             <span class="cli-cursor" data-element="cursor">>> </span>

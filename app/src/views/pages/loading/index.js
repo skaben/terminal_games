@@ -82,7 +82,7 @@ class Page {
 
   template() {
     return `
-      <div class="page">
+      <div class="content">
         <div class="content__header" data-element="header"></div>
         <div class="content__main" data-element="main"></div>
         <div class="content__footer" data-element="footer"></div>

@@ -1,7 +1,9 @@
 import getMenu from "../../components/menu";
 import Image from '../../components/documents/image';
+import Audio from '../../components/documents/audio';
 import { viewMixin } from '../../../mixins/view';
-import { pageMixin, canRenderAsyncWithComponents } from "../../../mixins/page"
+import { canDestroyComponents } from "../../../mixins/page"
+import { canRenderAsyncWithComponents } from '../../../mixins/render';
 
 import { getData } from "../../../util/api";
 import TypeWriter from "../../components/effects/typewriter";
@@ -9,8 +11,6 @@ import TypeWriter from "../../components/effects/typewriter";
 import "../../../assets/styles/style.scss";
 import { goRoot, changeUrl } from "../../../util/helpers";
 
-
-// TODO: how to pass data to image, text, video, etc ???
 
 const testData = [
   {
@@ -28,13 +28,6 @@ const testData = [
   },
   {
     'type': 'image',
-    'data': 'test.jpg',
-    'name': 'image_0001',
-    'menu': 'timer show image file',
-    'timer': 5
-  },
-  {
-    'type': 'image',
     'data': 'height.jpg',
     'name': 'image_0001',
     'menu': 'height image',
@@ -46,18 +39,24 @@ const testData = [
     'name': 'image_0001',
     'menu': 'width image',
     'timer': -1
-  }
+  },
+  {
+    'type': 'audio',
+    'data': 'screen_change.mp3',
+    'name': 'audio_0001',
+    'menu': 'audio',
+    'timer': -1
+  },
 ]
 
 class Page {
-
-    // should generate all sub-pages for menu-items too
 
     components = {};
     gameScenes = {};
 
     supported = {
       'image': Image,
+      'audio': Audio
     }
 
     URL = new URL("/api/menu", HOSTURL);
@@ -69,24 +68,29 @@ class Page {
                     : apiData;
 
       try {
-        //const menu = new Menu(this.data);
         const menu = getMenu(this.data);
         this.printMenu(menu);
 
+        // assign main component for rendering
         this.components.menu = menu;
         this.components.main = menu;
         return this.components;
-
       } catch (err) {
         console.error(err);
-        //await goRoot(err);
+        await goRoot(err);
       }
+    }
+
+    renderComponents() {
+      this.subElements['main'].innerHTML = '';
+      this.components.main.show(this.subElements['main']);
     }
 
     initEventListeners() {
       this.element.addEventListener("pointerdown", event => {
         event.preventDefault();
         const target = event.target.closest('a');
+        if (!target) return;
 
         if (target.href && target.href.split('/')[-1] === 'back') {
           // intercept /back from child component, render menu
@@ -96,14 +100,15 @@ class Page {
 
           if (this.data[index] && this.data[index]['type'] === 'game') {
             // menu item points to external game - just change URL
+            this.components.main.remove();
             return changeUrl(target.href);
           } else {
             // menu item points to supported document - render child component for it
             const gameScene = this.getGameScene(index);
-            this.components.main = gameScene || this.components.menu;
+            if (!gameScene) return;
+            this.components.main = gameScene;
           }
         }
-        this.subElements['main'].innerHTML = '';
         this.renderComponents();
       });
     }
@@ -126,6 +131,7 @@ class Page {
         // get component object type
         try {
           const supported = this.supported[data['type']];
+          console.log(data);
           scene = supported(data);
         } catch (err) {
           console.error(`[!] when rendering ${data['type']} ${err}`);
@@ -136,7 +142,7 @@ class Page {
 
     template() {
       return `
-        <div class="page">
+        <div class="content">
           <div class="content__menu" data-element="main"></div>
         </div>
       `;
@@ -150,7 +156,7 @@ const getMenuPage = () => {
   Object.assign(
     page,
     viewMixin,
-    pageMixin,
+    canDestroyComponents,
     canRenderAsyncWithComponents
   );
 

@@ -77,9 +77,11 @@ class Page {
   template() {
     return `
       <div class="page">
-        <div class="content__header" data-element="header"></div>
-        <div class="content__hack" data-element="hack"></div>
-        <div class="content__footer" data-element="footer"></div>
+        <div class="content">
+          <div class="content__header" data-element="header"></div>
+          <div class="content__hack" data-element="hack"></div>
+          <div class="content__footer" data-element="footer"></div>
+        </div>
       </div>
     `;
   }
@@ -96,7 +98,6 @@ const getHackPage = () => {
     pageMixin,
     canRenderAsyncWithComponents
   )
-  console.log(hack);
   return hack;
 }
 

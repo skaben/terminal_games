@@ -1,3 +1,34 @@
+.audio-wrapper {
+  margin-top: 7vh;
+  height: 40vh;
+}
+
+.audio-wrapper wave {
+  background: center;
+  top: 10%;
+}
+
+.audio-controls {
+  width: 100%;
+  margin-top: 3vh;
+}
+
+.audio-button {
+  float: left;
+  text-align: center;
+  width: 10rem;
+  padding: 1rem;
+  margin-right: 1.2rem;
+}
+
+.audio-button-stop {
+  border: 2px solid rgba(235, 255, 223, 0.5);
+}
+
+.audio-button-play {
+  border: 2px solid rgba(235, 255, 223, 0.5);
+}
+
 .image-wrapper {
   padding: 3vh 5vw 3vh 5vw;
   width: 100%;

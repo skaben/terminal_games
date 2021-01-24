@@ -19,8 +19,6 @@ const loadingTemplate = `<div class='content-preload'></div>`;
 export const renderDelay = 0;
 
 export default async function(path, match) {
-//  const Page = import(`../views/pages/main`);
-//  const page = new Page(match);
   const contentNode = document.querySelector(".screen__content");
   contentNode.innerHTML = loadingTemplate;
   try {

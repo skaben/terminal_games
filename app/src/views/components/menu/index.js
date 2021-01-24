@@ -1,5 +1,6 @@
 import "./style.scss";
-import { viewMixin, canRender } from "../../../mixins/view";
+import { viewMixin } from "../../../mixins/view";
+import { canRender } from "../../../mixins/render";
 
 class menuObject {
 

@@ -1,13 +1,27 @@
-import { canDestroyComponents, canRenderComponents, canRenderAsyncWithComponents } from './page';
+import { canDestroyComponents, canRenderComponents } from './page';
+import { canRenderAsyncWithComponents } from './render';
 import { canGetSubElements, canRemove, canShow } from './view';
+import TextBar from '../views/components/elements/textbar';
+import Timer from '../views/components/elements/timer';
 
 const documentMixin = {
   components: {},
   nav: {"back": "/back"}
 }
 
+const canInitTimer = {
+  initTimer() {
+    if (this.timer && this.timer > 0) {
+      this.nav = {};
+      this.components['footer'] = new Timer({timer: this.timer, message: 'document blocked... '});
+    }
+    this.components['header'] = new TextBar({message: `image document ${this.name}`, navData: this.nav});
+  }
+}
+
 Object.assign(
   documentMixin,
+  canInitTimer,
   canRenderComponents,
   canDestroyComponents,
   canGetSubElements,
@@ -17,5 +31,6 @@ Object.assign(
 
 export {
   documentMixin,
+  canInitTimer,
   canRenderAsyncWithComponents
 }

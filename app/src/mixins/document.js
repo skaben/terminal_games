@@ -6,7 +6,7 @@ import Timer from '../views/components/elements/timer';
 
 const documentMixin = {
   components: {},
-  nav: {"back": "/back"}
+  nav: {"back to menu": "/back"}
 }
 
 const canInitTimer = {
@@ -15,7 +15,7 @@ const canInitTimer = {
       this.nav = {};
       this.components['footer'] = new Timer({timer: this.timer, message: 'document blocked... '});
     }
-    this.components['header'] = new TextBar({message: `image document ${this.name}`, navData: this.nav});
+    this.components['header'] = new TextBar({message: `:: requested document ${this.name}`, navData: this.nav});
   }
 }
 

@@ -1,0 +1,30 @@
+.content-text {
+  overflow-y: scroll;
+  max-height: 70vh;
+  margin-top: 5vh;
+  font-size: .875rem;
+  padding: .25rem;
+}
+
+::-webkit-scrollbar {
+  width: .75em;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: white;
+  background-clip: padding-box;
+  border: 0.15em solid transparent;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  border: 1px solid rgba(235, 255, 223, 0.75);
+}
+/* Buttons */
+::-webkit-scrollbar-button:single-button {
+  background-color: none;
+  display: block;
+  border-style: white;
+  height: 1px;
+  width: 16px;
+}

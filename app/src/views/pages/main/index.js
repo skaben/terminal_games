@@ -1,6 +1,8 @@
 import getMenu from "../../components/menu";
 import Image from '../../components/documents/image';
 import Audio from '../../components/documents/audio';
+import Text from '../../components/documents/text';
+
 import { viewMixin } from '../../../mixins/view';
 import { canDestroyComponents } from "../../../mixins/page"
 import { canRenderAsyncWithComponents } from '../../../mixins/render';
@@ -47,6 +49,13 @@ const testData = [
     'menu': 'audio',
     'timer': -1
   },
+  {
+    'type': 'text',
+    'data': 'this_is_the_test text'.repeat(2560),
+    'name': 'text',
+    'menu': 'longtext',
+    'timer': -1
+  },
 ]
 
 class Page {
@@ -56,7 +65,8 @@ class Page {
 
     supported = {
       'image': Image,
-      'audio': Audio
+      'audio': Audio,
+      'text': Text
     }
 
     URL = new URL("/api/menu", HOSTURL);

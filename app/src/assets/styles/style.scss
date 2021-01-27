@@ -125,11 +125,6 @@ a::before {
   animation: fadeOut 1s .15s infinite alternate-reverse;
 }
 
-@keyframes upToBottom {
-    0% { transform: translateY(-15vh); }
-    100% { transform: translateY(115vh); }
-}
-
 .pulse {
   animation: pulse 3s ease-in-out infinite alternate;
 }
@@ -137,6 +132,11 @@ a::before {
 @keyframes pulse {
   from { opacity: .0; }
   to { opacity: .2; }
+}
+
+@keyframes upToBottom {
+  0% { transform: translateY(-15vh); }
+  100% { transform: translateY(115vh); }
 }
 
 @keyframes pulsebg {

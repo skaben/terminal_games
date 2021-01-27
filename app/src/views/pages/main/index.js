@@ -2,6 +2,7 @@ import getMenu from "../../components/menu";
 import Image from '../../components/documents/image';
 import Audio from '../../components/documents/audio';
 import Text from '../../components/documents/text';
+import Video from '../../components/documents/video';
 
 import { viewMixin } from '../../../mixins/view';
 import { canDestroyComponents } from "../../../mixins/page"
@@ -56,6 +57,13 @@ const testData = [
     'menu': 'longtext',
     'timer': -1
   },
+  {
+    'type': 'video',
+    'data': 'test.mp4',
+    'name': 'vidos',
+    'menu': 'video file',
+    'timer': -1
+  }
 ]
 
 class Page {
@@ -66,7 +74,8 @@ class Page {
     supported = {
       'image': Image,
       'audio': Audio,
-      'text': Text
+      'text': Text,
+      //'video': Video
     }
 
     URL = new URL("/api/menu", HOSTURL);
@@ -141,7 +150,7 @@ class Page {
         // get component object type
         try {
           const supported = this.supported[data['type']];
-          console.log(data);
+          if (!supported) { throw `${data['type']} is not in ${this.supported} list`};
           scene = supported(data);
         } catch (err) {
           console.error(`[!] when rendering ${data['type']} ${err}`);

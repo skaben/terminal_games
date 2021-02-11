@@ -10,12 +10,14 @@ const documentMixin = {
 }
 
 const canInitTimer = {
-  initTimer() {
+  initTimer({footer, header} = {}) {
+    const headerMessage = header || `:: requested document ${this.name}`,
+          footerMessage = footer || 'interface blocked ... ';
     if (this.timer && this.timer > 0) {
       this.nav = {};
-      this.components['footer'] = new Timer({timer: this.timer, message: 'document blocked... '});
+      this.components['footer'] = new Timer({timer: this.timer, message: footerMessage});
     }
-    this.components['header'] = new TextBar({message: `:: requested document ${this.name}`, navData: this.nav});
+    this.components['header'] = new TextBar({message: headerMessage, navData: this.nav});
   }
 }
 

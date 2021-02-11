@@ -89,6 +89,7 @@ module.exports = () => ({
   plugins: [
     new webpack.DefinePlugin({
       HOSTURL: JSON.stringify("http://localhost:5000"),
+      DEBUG: JSON.stringify(true)
     }),
     new CssUrlRelativePlugin(),
     new HtmlWebpackPlugin({

@@ -1,6 +1,6 @@
 // no dynamic import, dead simple
 
-import("../assets/sounds/screen_change.mp3");
+import("../assets/audio/screen_change.mp3");
 
 // const changeSound = new Audio("../assets/sounds/screen_change.mp3");
 

@@ -9,7 +9,10 @@ class PowerOff {
 
     template() {
       return `
-        <div class="screen screen__background" style="background-color: black">
+        <div style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background-color: black; z-index: 999;">
+          <div style="position: absolute; top: 30%; left: 33%;">
+            <p style="color: #222; font-size: 4rem; text-align: center;">POWER OFF</p>
+          </div>
         </div>
       `;
     }

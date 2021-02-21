@@ -8,7 +8,7 @@ import { pageMixin, canRenderAsyncWithComponents } from "../../../mixins/page";
 
 import "./style.scss";
 
-const testData = {
+let testData = {
   "words": ['AARDVARK', "TESTWORD", "WORDTEST", "VAARDARK", "TESTTEST", "WORDWORD", "ESTESTTT"],
   "password": "PASSWORD",
   "tries": 4,
@@ -18,6 +18,10 @@ const testData = {
   "cheatRestore": 50,
   "header": 'text in hack header',
   "footer": 'text in hack footer'
+}
+
+if (!DEBUG) {
+  testData = {};
 }
 
 class Page {

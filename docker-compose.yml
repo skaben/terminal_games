@@ -6,6 +6,7 @@ services:
     volumes:
       - ./app/src:/app/src
       - ./app/webpack.config.js:/app/webpack.config.js
+      - ./app/webpack.prod.js:/app/webpack.prod.js
       - ./dist:/app/dist
     command: >
       sh -c "npm run serve"

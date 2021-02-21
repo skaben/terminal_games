@@ -16,7 +16,7 @@ import "../../../assets/styles/style.scss";
 import { goRoot, changeUrl } from "../../../util/helpers";
 
 
-const testData = [
+let testData = [
   {
     'type': 'game',
     'href': 'hack',
@@ -73,6 +73,12 @@ const testData = [
     'timer': -1
   },
 ]
+
+
+if (!DEBUG) {
+  testData = [];
+}
+
 
 class Page {
 

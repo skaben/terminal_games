@@ -1,0 +1,7 @@
+.textbar {
+  display: flex;
+}
+
+.textbar div:nth-child(1) {
+  flex-grow: 1;
+}

@@ -7,6 +7,7 @@ export async function postData(data) {
     let response = await fetch(APIURL, {
       method: "POST",
       headers: {
+          "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json;charset=utf-8"
       },
       body: JSON.stringify(data)
@@ -23,10 +24,13 @@ export async function postData(data) {
     }
 }
 
-
 export async function getData(url) {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
+    });
     if (!response.ok) { throw response.status };
     const data = await response.json();
     return data;

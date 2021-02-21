@@ -11,12 +11,16 @@ import "./style.scss";
 
 import { getData } from "../../../util/api";
 
-const testData = {
+let testData = {
   'footer': 'text in main footer',
   'header': 'text in main header',
   'blocked': false,
   'powered': true,
   'timeout': 120
+}
+
+if (!DEBUG) {
+  testData = {};
 }
 
 class Page {
@@ -43,9 +47,7 @@ class Page {
   }
 
   setPowerOff() {
-    const main = new PowerOff();
-
-    this.components.main = main;
+    this.components.main = new PowerOff();
     return this.components;
   }
 
@@ -82,7 +84,7 @@ class Page {
 
   template() {
     return `
-      <div class="page">
+      <div class="content">
         <div class="content__header" data-element="header"></div>
         <div class="content__main" data-element="main"></div>
         <div class="content__footer" data-element="footer"></div>

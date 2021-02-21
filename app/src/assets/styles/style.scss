@@ -20,6 +20,17 @@ a:hover {
 a::before {
   display: inline;
   content: ">";
+  padding-right: .2rem;
+}
+
+.application {
+  height: 100vh;
+  width: 100vw;
+}
+
+.page,
+.content {
+  padding: 1rem 2rem 1rem 2rem;
 }
 
 .invisible {
@@ -114,11 +125,6 @@ a::before {
   animation: fadeOut 1s .15s infinite alternate-reverse;
 }
 
-@keyframes upToBottom {
-    0% { transform: translateY(-15vh); }
-    100% { transform: translateY(115vh); }
-}
-
 .pulse {
   animation: pulse 3s ease-in-out infinite alternate;
 }
@@ -126,6 +132,11 @@ a::before {
 @keyframes pulse {
   from { opacity: .0; }
   to { opacity: .2; }
+}
+
+@keyframes upToBottom {
+  0% { transform: translateY(-15vh); }
+  100% { transform: translateY(115vh); }
 }
 
 @keyframes pulsebg {

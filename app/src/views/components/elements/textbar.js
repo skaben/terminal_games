@@ -1,3 +1,4 @@
+import './textbar.scss';
 import { viewMixin, canRender } from "../../../mixins/view";
 
 class TextBar {
@@ -6,7 +7,7 @@ class TextBar {
       message,
       navData
     }) {
-      this.message = message || "!! terminal configuration failed, call system administator !!";
+      this.message = message || "!! screen configuration failed, call system administator !!";
       this.navData = navData;
     }
 

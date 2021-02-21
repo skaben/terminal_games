@@ -21,7 +21,7 @@ class Timer {
         <div class="timer-bar">
           <div class="timer-bar__main">
             <span data-element="main">${this.message}</span>
-            <span data-element="time"></span>
+            <span data-element="timer">${this.timer}</span>
           </div>
         </div>
       `
@@ -30,8 +30,7 @@ class Timer {
     startTimer() {
       this.counter = setInterval(() => {
         if (this.timer > 0) {
-          this.subElements.time.textContent = --this.timer;
-          console.log(`tick ${this.timer}`);
+          this.subElements.timer.textContent = --this.timer;
         } else {
           this.stopCounter();
         }
@@ -39,8 +38,7 @@ class Timer {
     }
 
     stopCounter() {
-      console.log('finish!');
-      this.subElements.time.textContent = '';
+      this.subElements.timer.textContent = '';
       clearInterval(this.counter);
       if (this.onEnd) this.onEnd();
     }
@@ -56,6 +54,7 @@ const getTimer = (props) => {
     canRender
   )
   timer.render();
+  timer.startTimer();
   return timer;
 }
 

@@ -43,7 +43,7 @@ class HackGame {
     } = props) {
 
     this.password = password;
-    this.words = words.concat(password);
+    this.words = words;
     this.dummyWords = words;
     this.tries = tries || 4;
     this.timeout = timeout || 0;

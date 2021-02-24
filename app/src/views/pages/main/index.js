@@ -135,7 +135,7 @@ class Page {
           if (this.data[index] && this.data[index]['type'] === 'game') {
             // menu item points to external game - just change URL
             this.components.main.remove();
-            return changeUrl(target.href);
+            return changeUrl('/hack');
           } else {
             // menu item points to supported document - render child component for it
             const gameScene = this.getGameScene(index);

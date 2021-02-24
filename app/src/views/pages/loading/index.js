@@ -1,15 +1,17 @@
 import Loading from "../../components/system";
-import PowerOff from "../../components/poweroff";
+import PowerOffView from "../../components/poweroff";
 import textBar from "../../components/elements/textbar";
 import Timer from "../../components/elements/timer";
 import TypeWriter from "../../components/effects/typewriter";
 import { viewMixin } from '../../../mixins/view';
 import { pageMixin, canRenderAsyncWithComponents } from '../../../mixins/page';
 
-
 import "./style.scss";
 
 import { getData } from "../../../util/api";
+import { changeUrl } from "../../../util/helpers";
+import socket from "../../../util/socket";
+
 
 let testData = {
   'footer': 'text in main footer',
@@ -47,7 +49,7 @@ class Page {
   }
 
   setPowerOff() {
-    this.components.main = new PowerOff();
+    this.components.main = PowerOffView();
     return this.components;
   }
 
@@ -64,11 +66,11 @@ class Page {
             message: footerText,
           });
 
-    const headerTyping = TypeWriter(header.subElements.main);
+    const headerTyping = new TypeWriter(header.subElements.main);
 
-    const footerTyping = TypeWriter(footer.subElements.main, {
-                                    delay: headerTyping.totalTime,
-                                    });
+    const footerTyping = new TypeWriter(footer.subElements.main, {
+                                        delay: headerTyping.totalTime,
+                                       });
 
     headerTyping.print();
     footerTyping.print();
@@ -77,7 +79,11 @@ class Page {
     this.components.footer = footer;
     this.components.main = main;
 
-    this.element.addEventListener("loadingEnd", () => console.log('end loading'));
+    if (main.timeout > 0) {
+      setTimeout(() => socket.emit("unblock"), main.timeout * 1000)
+    }
+
+    // this.element.addEventListener("loadingEnd", () => console.log('end loading'));
 
     return this.components;
   }

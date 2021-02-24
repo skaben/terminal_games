@@ -13,9 +13,7 @@ let testData = {
   "password": "PASSWORD",
   "tries": 4,
   "timeout": 0,
-  "cheatChance": 20,
-  "cheatRemove": 10,
-  "cheatRestore": 50,
+  "chance": 20,
   "header": 'text in hack header',
   "footer": 'text in hack footer'
 }

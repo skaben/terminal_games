@@ -58,7 +58,7 @@ class HackGame {
     this.cheats = this.leftBrackets.concat(this.rightBrackets);
     this.triesAtStart = this.tries;
     this.cheatRestore = Math.floor(chance / 5);
-    this.cheatRemove = chance;
+    this.cheatRemove = 100;  // quick fix, words should be removed always
 
     this.textField = this.getTextField();
     this.content = this.getContent();

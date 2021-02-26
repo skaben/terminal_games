@@ -1,14 +1,14 @@
 version: '3'
 
 services:
-  npm_termgame:
-    build: .
+  terminal_vue:
+    build:
+      context: .
     volumes:
-      - ./app/src:/app/src
-      - ./app/webpack.config.js:/app/webpack.config.js
-      - ./app/webpack.prod.js:/app/webpack.prod.js
+      - ./vue/src:/app/src
       - ./dist:/app/dist
     command: >
       sh -c "npm run serve"
     ports:
-      - "9000:9000"
+      - 8080:8080
+

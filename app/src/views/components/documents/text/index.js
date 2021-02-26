@@ -11,7 +11,7 @@ class TextDoc {
     timer
   } = props) {
     this.name = name;
-    this.text = data;
+    this.text = data.split('\n').join('<br>');
     this.timer = timer;
   }
 
@@ -33,7 +33,7 @@ class TextDoc {
   }
 
   print() {
-    this.subElements.main.textContent = this.text;
+    this.subElements.main.innerHTML = this.text;
     this.subElements.main.focus();
   }
 

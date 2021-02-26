@@ -6,13 +6,13 @@ import Timer from '../views/components/elements/timer';
 
 const documentMixin = {
   components: {},
-  nav: {"back to menu": "/back"}
+  nav: {"назад": "/back"}
 }
 
 const canInitTimer = {
   initTimer({footer, header} = {}) {
-    const headerMessage = header || `:: requested document ${this.name}`,
-          footerMessage = footer || 'interface blocked ... ';
+    const headerMessage = header || `:: запрошен документ ${this.name}`,
+          footerMessage = footer || 'интерфейс заблокирован ... ';
     if (this.timer && this.timer > 0) {
       this.nav = {};
       this.components['footer'] = new Timer({timer: this.timer, message: footerMessage});

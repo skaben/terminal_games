@@ -1,60 +1,45 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div class="content">
+    <div class="content__header">
+      <text-bar :message='`theheader`'></text-bar>
+    </div>
+    <div class="content__main" data-element="main">
+      <loading-mech></loading-mech>
+    </div>
+    <div class="content__footer" data-element="footer">
+      <text-bar :message='`thefooter`'></text-bar>
+    </div>
   </div>
 </template>
 
 <script>
+import LoadingMech from './components/LoadingMech.vue';
+import TextBar from './components/TextBar.vue';
+
 export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+  name: 'terminal',
+
+  components: {
+    TextBar,
+    LoadingMech,
   }
 }
+
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.textbar {
+  display: flex;
 }
 
-h1, h2 {
-  font-weight: normal;
+.textbar div:nth-child(1) {
+  flex-grow: 1;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.content__footer {
+  position: absolute;
+  bottom: 5vh;
+  width: 50vw;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>

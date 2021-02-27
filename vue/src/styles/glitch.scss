@@ -1,0 +1,61 @@
+.glitched {
+  animation: glitch .85s ease-in-out infinite reverse;
+}
+
+@keyframes glitch{
+  2%,64%{
+    transform: translate(2px,0) skew(2deg);
+  }
+  4%,60%{
+    transform: translate(-2px,2px) skew(0deg);
+  }
+  62%{
+    filter: hue-rotate(270deg) brightness(125%);
+    transform: translate(0px,-2px) skew(25deg);
+  }
+}
+
+.glitched:before,
+.glitched:after{
+  content: attr(title);
+  position: absolute;
+  left: 0;
+}
+
+.glitched:before{
+  animation: glitchTop 1.5s ease-in-out infinite reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+@keyframes glitchTop{
+  2%,65%{
+    transform: translate(2px,-2px);
+  }
+  4%,60%{
+    transform: translate(-2px,2px);
+  }
+  62%{
+    filter: hue-rotate(350deg);
+    transform: translate(2px,-1px) skew(-5deg);
+  }
+}
+
+.glitched:after{
+  animation: glitchBotom 1.5s ease-in infinite;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchBotom{
+  2%,75%{
+    transform: translate(-2px,0);
+  }
+  4%,60%{
+    transform: translate(-2px,0);
+  }
+  62%{
+    filter: brightness(180%);
+    transform: translate(0px,1px) skew(15deg);
+  }
+}

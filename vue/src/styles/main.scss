@@ -1,0 +1,66 @@
+@import './variables.scss';
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background: $black;
+  font-family: "VT220", monospace;
+  font-size: 3vh;
+  color: $main-green;
+  overflow: hidden;
+}
+
+a {
+  color: $main-green;
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover {
+  color: $white;
+}
+
+a::before {
+  display: inline;
+  content: ">";
+  padding-right: .2rem;
+}
+
+.application {
+  height: 100vh;
+  width: 100vw;
+}
+
+.page,
+.content {
+  padding: 1rem 2rem 1rem 2rem;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.animate-centered {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.content-preload {
+  width: 100vw;
+  height: 100vh;
+  animation: fadeOut .15s ease-in;
+}
+
+.screen {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  display: block;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: "VT220";
+}
+
+.screen-wrapper {
+  border: .3rem solid $black;
+}

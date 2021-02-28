@@ -3,15 +3,15 @@
     <div class="content" v-bind:class="{'distort': isGlitched}">
 
       <div class="content__header">
-        <text-bar :message='`theheader`'></text-bar>
+        <text-bar :message=headerMessage></text-bar>
       </div>
 
       <div class="content__main">
-        <loading-mech :speed="`30`"></loading-mech>
+        <loading-mech :speed=30></loading-mech>
       </div>
 
       <div class="content__footer">
-        <text-bar :message='`thefooter`'></text-bar>
+        <text-bar :message=footerMessage></text-bar>
       </div>
 
       <audio ref="powerOnSound" preload hidden>
@@ -46,6 +46,11 @@ export default {
     return {
       isGlitched: false
     }
+  },
+
+  props: {
+    headerMessage: String,
+    footerMessage: String
   },
 
   mounted() {

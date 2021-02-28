@@ -7,10 +7,7 @@
 <script>
 export default {
   props: {
-    message: {
-      type: String,
-      default: 'terminal vt40k'
-    },
+    message: String,
   }
 }
 </script>

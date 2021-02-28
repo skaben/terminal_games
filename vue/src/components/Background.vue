@@ -15,8 +15,9 @@
 <script>
 export default {
 
-  // hue = 320 - green
-  // hue =
+  // hue, opacity, brightness
+  // 190, 85, 120 - red
+  // 315, 75, 200 - green
 
   props: {
     hue: {
@@ -65,11 +66,11 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    z-index: -100;
   }
 
   .bg-under {
     opacity: 0.2;
-    z-index: -10;
     background-image:
     radial-gradient(
       ellipse farthest-corner,

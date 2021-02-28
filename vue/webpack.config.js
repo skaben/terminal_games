@@ -64,9 +64,18 @@ module.exports = {
         test: /\.(png|jpg|gif|svg|ogg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]'
+          name: '[name].[ext]?[hash:7]'
         }
-      }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          importLoaders: 1,
+          name: '[name].[ext]?[hash:7]'
+        }
+      },
     ]
   },
   resolve: {

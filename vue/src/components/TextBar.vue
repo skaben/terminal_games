@@ -1,6 +1,6 @@
 <template>
   <div class="textbar">
-    <div class="textbar__main">{{message}}</div>
+    <div class="textbar__main"><span>{{message}}</span></div>
   </div>
 </template>
 
